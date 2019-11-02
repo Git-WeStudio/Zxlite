@@ -15,4 +15,5 @@
     <string name="regPhoneBtn">获取验证码</string>
     <string name="regPhoneCode">输入手机验证码</string>
     <string name="regBtn">注册</string>
+    <string name="loginFailed">登录失败</string>
 </resources>

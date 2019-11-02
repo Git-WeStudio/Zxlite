@@ -1,12 +1,82 @@
 package we.zxlite.utils
 
+import android.app.Activity
 import android.content.Context
 import androidx.core.content.ContextCompat
+import java.net.HttpURLConnection
+import java.net.URL
+import java.security.MessageDigest
+import we.zxlite.utils.SqlUtils.Helper
+import java.lang.Integer.toHexString
+import kotlin.experimental.xor
 
 object BaseUtils {
+    /** 获取数据库资源 */
+    val Context.db: Helper get() = Helper.getInstance(this)
+
+    /** 空字符串 */
+    val EMPTY_STR = ""
+
+    /** 智学网密钥 */
+    private val KEY_EDP: ByteArray
+        get() = "iflytek_pass_edp".toByteArray()
+
+    /** 默认跳转动画 */
+    fun Activity.overridePendingTransition() =
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+
     /** 获取颜色值
      * @param colorResId 颜色资源标识
      * @return 颜色值
      */
     fun Context.color(colorResId: Int) = ContextCompat.getColor(this, colorResId)
+
+    /** 快速转为HttpURLConnection */
+    fun String.conn() = URL(this).openConnection() as HttpURLConnection
+
+    /** 转为RC4 */
+    fun String.rc4(): String {
+        val dataBytes = toByteArray()
+        val bytes = ByteArray(dataBytes.size)
+        val s = ByteArray(256)
+        var x = 0
+        var y = 0
+        for (i in s.indices) {
+            s[i] = i.toByte()
+        }
+        for (i in s.indices) {
+            y = y + s[i] + KEY_EDP[i % KEY_EDP.size] and 0xFF
+            s[i] = s[i] xor s[y]
+            s[y] = s[y] xor s[i]
+            s[i] = s[i] xor s[y]
+        }
+        y = 0
+        for (counter in dataBytes.indices) {
+            x = x + 1 and 0xFF
+            y = y + s[x] and 0xFF
+            s[x] = s[x] xor s[y]
+            s[y] = s[y] xor s[x]
+            s[x] = s[x] xor s[y]
+            val k = s[s[x] + s[y] and 0xFF]
+            bytes[counter] = dataBytes[counter] xor k
+        }
+        return bytes.hexString()
+    }
+
+    /** 转为MD5 */
+    fun String.md5(): String {
+        val ins = MessageDigest.getInstance("MD5")
+        ins.update(toByteArray())
+        return ins.digest().hexString()
+    }
+
+    /** 转为十六进制字符串 */
+    private fun ByteArray.hexString(): String {
+        val builder = StringBuilder()
+        for (b in this) {
+            val i: Int = b.toInt() and 255
+            builder.append("${if (i < 16) "0" else EMPTY_STR}${toHexString(i)}")
+        }
+        return builder.toString()
+    }
 }

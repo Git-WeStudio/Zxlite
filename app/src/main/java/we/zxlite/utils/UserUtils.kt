@@ -1,0 +1,56 @@
+package we.zxlite.utils
+
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import org.json.JSONObject
+import we.zxlite.bean.UserBean
+import we.zxlite.utils.BaseUtils.EMPTY_STR
+import we.zxlite.utils.HttpUtils.connApi
+import we.zxlite.utils.HttpUtils.Type.JsonObject
+
+object UserUtils {
+
+    var config = UserBean() //用户配置
+
+    private const val LOG_URL = "https://www.zhixue.com/container/app/login" //登录账号
+    private const val INFO_URL = "https://www.zhixue.com/zhixuebao/base/common/getUserInfo?" //用户信息
+
+    private const val USER_INFO = "userInfo"
+    private const val SERVER_INFO = "serverInfo"
+    private const val CUR_SERVER_TIME = "curServerTime"
+    private const val CUR_CHILD_ID = "curChildId"
+    private const val TOKEN = "token"
+    private const val NAME = "name"
+
+    private val logParams get() = "loginName=${config.logName}&password=${config.logPwd}&description={'encrypt':['password']}" //登录参数
+
+    /** 登录
+     * @param userName 用户名
+     * @param userPwd 用户密码
+     */
+    suspend fun login(
+        userName: String? = config.logName,
+        userPwd: String? = config.logPwd
+    ) = GlobalScope.async {
+        config.logName = userName
+        config.logPwd = userPwd
+        connApi(LOG_URL, logParams, false, JsonObject) {
+            if (it is JSONObject) {
+                config.userName = it.optJSONObject(USER_INFO)!!.optString(NAME)
+                config.token = it.optString(TOKEN)
+                config.serviceTime = it.optJSONObject(SERVER_INFO)!!.optLong(CUR_SERVER_TIME)
+            }
+        }
+        connApi(INFO_URL, EMPTY_STR, true, JsonObject) {
+            if (it is JSONObject) {
+                config.userId = it.optString(CUR_CHILD_ID)
+            }
+        }
+        return@async config.userId != null
+    }.await()
+
+    /** 清除配置信息 */
+    fun clean() {
+        config = UserBean()
+    }
+}
