@@ -35,16 +35,9 @@ object HttpUtils {
      * @param params 提交数据
      * @param add 增加验证
      * @param type 返回数据类型
-     * @param callback 回调
      */
-    suspend fun connApi(
-        url: String,
-        params: String,
-        add: Boolean,
-        type: Type?,
-        callback: (Any) -> Unit
-    ) {
-        GlobalScope.launch {
+    suspend fun connApi(url: String, params: String, add: Boolean, type: Type?) =
+        GlobalScope.async {
             val urlConn =
                 (if (add) "$url&token=${config.token}&childrenId=${config.userId}" else url).conn()
             try {
@@ -67,21 +60,18 @@ object HttpUtils {
                     stream.flush()
                     stream.close()
                     val resultData = inputStream.reader().readText()
-                    callback(
-                        when (type) {
-                            JsonObject -> resultData.objectOf()
-                            JsonArray -> resultData.arrayOf()
-                            else -> resultData
-                        }
-                    )
+                    return@async when (type) {
+                        JsonObject -> resultData.objectOf()
+                        JsonArray -> resultData.arrayOf()
+                        else -> resultData
+                    }
                 }
             } catch (e: Exception) {
-                callback(Error(e))
+                return@async Error(e)
             } finally {
                 urlConn.disconnect()
             }
-        }.join()
-    }
+        }.await()
 
     /** 转为JSON */
     private fun String.json(): String = JSONObject(this).run {

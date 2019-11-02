@@ -108,34 +108,32 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/regPassword" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/regImgBtn"
-            style="?android:buttonBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/regPhoneBtn"
-            android:textColor="@android:color/transparent"
-            app:layout_constraintBottom_toBottomOf="@+id/regImgCode"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/regImgCode" />
-
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/regImg"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginBottom="6dp"
             app:layout_constraintBottom_toBottomOf="@+id/regImgBtn"
             app:layout_constraintEnd_toEndOf="@+id/regImgBtn"
             app:layout_constraintStart_toStartOf="@+id/regImgBtn"
             app:layout_constraintTop_toTopOf="@+id/regImgBtn" />
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/regImgBtn"
+            style="?android:buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/regSmsBtn"
+            android:textColor="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="@+id/regImgCode"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/regImgCode" />
+
         <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/regPhoneCode"
+            android:id="@+id/regSmsCode"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
@@ -144,7 +142,7 @@
             android:background="@null"
             android:drawableBottom="@drawable/edit_line"
             android:drawablePadding="6dp"
-            android:hint="@string/regPhoneCode"
+            android:hint="@string/regSmsCode"
             android:inputType="number"
             android:maxLength="4"
             android:paddingLeft="2dp"
@@ -152,19 +150,19 @@
             android:textColorHint="@color/colorSubTitle"
             android:textCursorDrawable="@null"
             android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@id/regPhoneBtn"
+            app:layout_constraintEnd_toStartOf="@id/regSmsBtn"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/regImgCode" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/regPhoneBtn"
+            android:id="@+id/regSmsBtn"
             style="?android:buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/regPhoneBtn"
-            app:layout_constraintBottom_toBottomOf="@+id/regPhoneCode"
+            android:text="@string/regSmsBtn"
+            app:layout_constraintBottom_toBottomOf="@+id/regSmsCode"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/regPhoneCode" />
+            app:layout_constraintTop_toTopOf="@+id/regSmsCode" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/regBtn"
@@ -176,7 +174,7 @@
             app:backgroundTint="@color/colorAccent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/regPhoneCode" />
+            app:layout_constraintTop_toBottomOf="@+id/regSmsCode" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

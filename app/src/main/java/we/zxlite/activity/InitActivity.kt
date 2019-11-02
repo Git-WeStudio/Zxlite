@@ -2,6 +2,7 @@ package we.zxlite.activity
 
 import android.os.Bundle
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jetbrains.anko.db.select
@@ -38,7 +39,7 @@ class InitActivity : BaseActivity() {
                 }
             return@use null
         }.let {
-            withContext(Dispatchers.Main) {
+            withContext(Main) {
                 if (it != null && login(it[0], it[1]))
                     startActivity<MainActivity>() else startActivity<LoginActivity>()
                 finish()

@@ -5,6 +5,7 @@ import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_SHORT
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jetbrains.anko.db.replace
@@ -36,26 +37,28 @@ class LoginActivity : BaseActivity() {
         loginReg.setOnClickListener {
             startActivity<RegisterActivity>()
         }
-        loginBtn.setOnClickListener { checkLogin() }
+        loginBtn.setOnClickListener { onLogin() }
     }
 
     /**检查登录参数
      * @param loginName 用户名
      * @param loginPwd 用户密码
      */
-    private fun checkLogin(loginName: String = logUserName, loginPwd: String = logUserPwd) {
+    private fun onLogin(loginName: String = logUserName, loginPwd: String = logUserPwd) {
+        loginBtn.isEnabled = false
         launch {
             if (login(loginName, loginPwd)) {
                 db.use {
                     replace(TABLE_RMB, ITEM_NAME to loginName, ITEM_VALUE to loginPwd)
                     replace(TABLE_CFG, ITEM_NAME to SELECT_USER, ITEM_VALUE to loginName)
                 }
-                withContext(Dispatchers.Main) {
+                withContext(Main) {
                     startActivity<MainActivity>()
                     finish()
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
                 }
-            } else withContext(Dispatchers.Main) {
+            } else withContext(Main) {
+                loginBtn.isEnabled = true
                 Snackbar.make(loginBtn, R.string.loginFailed, LENGTH_SHORT).show()
             }
         }

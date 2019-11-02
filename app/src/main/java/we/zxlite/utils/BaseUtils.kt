@@ -2,7 +2,11 @@ package we.zxlite.utils
 
 import android.app.Activity
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.util.Base64
 import androidx.core.content.ContextCompat
+import org.json.JSONObject
 import java.net.HttpURLConnection
 import java.net.URL
 import java.security.MessageDigest
@@ -11,15 +15,11 @@ import java.lang.Integer.toHexString
 import kotlin.experimental.xor
 
 object BaseUtils {
+    /** 空字符串 */
+    const val EMPTY_STR = ""
+
     /** 获取数据库资源 */
     val Context.db: Helper get() = Helper.getInstance(this)
-
-    /** 空字符串 */
-    val EMPTY_STR = ""
-
-    /** 智学网密钥 */
-    private val KEY_EDP: ByteArray
-        get() = "iflytek_pass_edp".toByteArray()
 
     /** 默认跳转动画 */
     fun Activity.overridePendingTransition() =
@@ -37,6 +37,7 @@ object BaseUtils {
     /** 转为RC4 */
     fun String.rc4(): String {
         val dataBytes = toByteArray()
+        val keyBytes = "iflytek_pass_edp".toByteArray()
         val bytes = ByteArray(dataBytes.size)
         val s = ByteArray(256)
         var x = 0
@@ -45,7 +46,7 @@ object BaseUtils {
             s[i] = i.toByte()
         }
         for (i in s.indices) {
-            y = y + s[i] + KEY_EDP[i % KEY_EDP.size] and 0xFF
+            y = y + s[i] + keyBytes[i % keyBytes.size] and 0xFF
             s[i] = s[i] xor s[y]
             s[y] = s[y] xor s[i]
             s[i] = s[i] xor s[y]
@@ -68,6 +69,12 @@ object BaseUtils {
         val ins = MessageDigest.getInstance("MD5")
         ins.update(toByteArray())
         return ins.digest().hexString()
+    }
+
+    /** 转为位图 */
+    fun String.bitmap(): Bitmap {
+        val decode = Base64.decode(this, Base64.DEFAULT)
+        return BitmapFactory.decodeByteArray(decode, 0, decode.size)
     }
 
     /** 转为十六进制字符串 */

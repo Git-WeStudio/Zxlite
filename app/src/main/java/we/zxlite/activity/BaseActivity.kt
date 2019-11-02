@@ -27,8 +27,8 @@ abstract class BaseActivity : AppCompatActivity(), CoroutineScope by MainScope()
     }
 
     override fun onDestroy() {
-        cancel()
         super.onDestroy()
+        cancel()
     }
 
     /** 初始化状态栏

@@ -34,16 +34,14 @@ object UserUtils {
     ) = GlobalScope.async {
         config.logName = userName
         config.logPwd = userPwd
-        connApi(LOG_URL, logParams, false, JsonObject) {
-            if (it is JSONObject) {
-                config.userName = it.optJSONObject(USER_INFO)!!.optString(NAME)
-                config.token = it.optString(TOKEN)
-                config.serviceTime = it.optJSONObject(SERVER_INFO)!!.optLong(CUR_SERVER_TIME)
-            }
-        }
-        connApi(INFO_URL, EMPTY_STR, true, JsonObject) {
-            if (it is JSONObject) {
-                config.userId = it.optString(CUR_CHILD_ID)
+        connApi(LOG_URL, logParams, false, JsonObject).run {
+            if (this is JSONObject) {
+                config.userName = optJSONObject(USER_INFO)!!.optString(NAME)
+                config.token = optString(TOKEN)
+                config.serviceTime = optJSONObject(SERVER_INFO)!!.optLong(CUR_SERVER_TIME)
+                connApi(INFO_URL, EMPTY_STR, true, JsonObject).run {
+                    if (this is JSONObject) config.userId = this.optString(CUR_CHILD_ID)
+                }
             }
         }
         return@async config.userId != null
