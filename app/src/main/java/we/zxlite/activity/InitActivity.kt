@@ -1,5 +1,6 @@
 package we.zxlite.activity
 
+import android.content.Intent
 import android.os.Bundle
 import we.zxlite.R
 
@@ -11,5 +12,6 @@ class InitActivity : BaseActivity() {
     }
 
     override fun initView() {
+        startActivity(Intent(this, LoginActivity::class.java))
     }
 }

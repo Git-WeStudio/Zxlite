@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="48dp"
             android:background="@null"
-            android:drawableBottom="@drawable/et_line"
+            android:drawableBottom="@drawable/edit_line"
             android:drawablePadding="6dp"
             android:gravity="center_vertical"
             android:hint="@string/loginUsername"
@@ -72,7 +72,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="48dp"
             android:background="@null"
-            android:drawableBottom="@drawable/et_line"
+            android:drawableBottom="@drawable/edit_line"
             android:drawablePadding="6dp"
             android:hint="@string/loginPassword"
             android:inputType="textPassword"
@@ -93,6 +93,7 @@
             android:layout_marginTop="48dp"
             android:text="@string/loginBtn"
             android:textStyle="bold"
+            app:backgroundTint="@color/colorAccent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/loginPassword" />
@@ -105,9 +106,9 @@
             android:text="@string/loginReg"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/diver"
+            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/loginBtn"
-            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintVertical_bias="1.0" />
 
         <View

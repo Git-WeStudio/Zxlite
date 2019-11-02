@@ -7,4 +7,5 @@
     <color name="colorTitle">#3C4245</color>
     <color name="colorSubTitle">#A5A9AF</color>
     <color name="colorLine">#ECEFF1</color>
+    <color name="colorShadow">#EEEEEE</color>
 </resources>
