@@ -1,17 +1,15 @@
 package we.zxlite.activity
 
-import android.content.Intent
 import android.os.Bundle
 import we.zxlite.R
 
-class InitActivity : BaseActivity() {
+class RegisterActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_init)
+        setContentView(R.layout.activity_register)
     }
 
     override fun initView() {
-        startActivity(Intent(this, RegisterActivity::class.java))
     }
 }

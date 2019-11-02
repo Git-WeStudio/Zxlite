@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:fadingEdge="none"
+    android:fillViewport="true"
+    android:overScrollMode="never"
+    android:scrollbars="none">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:paddingLeft="36dp"
+        android:paddingRight="36dp"
+        android:paddingBottom="4dp"
+        tools:context=".activity.LoginActivity">
+
+        <TextView
+            android:id="@+id/regTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/regTitle"
+            android:textColor="@color/colorTitle"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.18" />
+
+        <TextView
+            android:id="@+id/regSubTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/regSubTitle"
+            android:textColor="@color/colorSubTitle"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/regTitle" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/regPhoneNumber"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:background="@null"
+            android:drawableBottom="@drawable/edit_line"
+            android:drawablePadding="6dp"
+            android:gravity="center_vertical"
+            android:hint="@string/regPhoneNumber"
+            android:inputType="text"
+            android:maxLength="30"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:textColorHint="@color/colorSubTitle"
+            android:textCursorDrawable="@null"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/regSubTitle" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/regPassword"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:background="@null"
+            android:drawableBottom="@drawable/edit_line"
+            android:drawablePadding="6dp"
+            android:hint="@string/regPassword"
+            android:inputType="textPassword"
+            android:maxLength="30"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:textColorHint="@color/colorSubTitle"
+            android:textCursorDrawable="@null"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/regPhoneNumber" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/regImgCode"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@null"
+            android:drawableBottom="@drawable/edit_line"
+            android:drawablePadding="6dp"
+            android:hint="@string/regImgCode"
+            android:inputType="number"
+            android:maxLength="4"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:textColorHint="@color/colorSubTitle"
+            android:textCursorDrawable="@null"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@id/regImgBtn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/regPassword" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/regImgBtn"
+            style="?android:buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/regPhoneBtn"
+            android:textColor="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="@+id/regImgCode"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/regImgCode" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/regImg"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/regImgBtn"
+            app:layout_constraintEnd_toEndOf="@+id/regImgBtn"
+            app:layout_constraintStart_toStartOf="@+id/regImgBtn"
+            app:layout_constraintTop_toTopOf="@+id/regImgBtn" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/regPhoneCode"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@null"
+            android:drawableBottom="@drawable/edit_line"
+            android:drawablePadding="6dp"
+            android:hint="@string/regPhoneCode"
+            android:inputType="number"
+            android:maxLength="4"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:textColorHint="@color/colorSubTitle"
+            android:textCursorDrawable="@null"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@id/regPhoneBtn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/regImgCode" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/regPhoneBtn"
+            style="?android:buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/regPhoneBtn"
+            app:layout_constraintBottom_toBottomOf="@+id/regPhoneCode"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/regPhoneCode" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/regBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="@string/regBtn"
+            android:textStyle="bold"
+            app:backgroundTint="@color/colorAccent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/regPhoneCode" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

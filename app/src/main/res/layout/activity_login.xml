@@ -46,7 +46,7 @@
             app:layout_constraintTop_toBottomOf="@+id/loginTitle" />
 
         <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/loginUsername"
+            android:id="@+id/regPhoneNumber"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="48dp"
@@ -67,7 +67,7 @@
             app:layout_constraintTop_toBottomOf="@+id/loginSubTitle" />
 
         <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/loginPassword"
+            android:id="@+id/regPassword"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="48dp"
@@ -84,10 +84,10 @@
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/loginUsername" />
+            app:layout_constraintTop_toBottomOf="@+id/regPhoneNumber" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/loginBtn"
+            android:id="@+id/regBtn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="48dp"
@@ -96,7 +96,7 @@
             app:backgroundTint="@color/colorAccent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/loginPassword" />
+            app:layout_constraintTop_toBottomOf="@+id/regPassword" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/loginReg"
@@ -108,7 +108,7 @@
             app:layout_constraintEnd_toStartOf="@+id/diver"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/loginBtn"
+            app:layout_constraintTop_toBottomOf="@+id/regBtn"
             app:layout_constraintVertical_bias="1.0" />
 
         <View
@@ -135,7 +135,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/diver"
-            app:layout_constraintTop_toBottomOf="@+id/loginBtn"
+            app:layout_constraintTop_toBottomOf="@+id/regBtn"
             app:layout_constraintVertical_bias="1.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
