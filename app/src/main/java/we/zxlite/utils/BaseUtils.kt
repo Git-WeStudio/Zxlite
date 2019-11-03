@@ -22,9 +22,7 @@ object BaseUtils {
     fun Activity.transition() =
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
 
-    /** 获取颜色值
-     * @param colorResId 颜色资源标识
-     */
+    /** 获取颜色值 */
     fun Context.color(colorResId: Int) = ContextCompat.getColor(this, colorResId)
 
     /** 转为HttpURLConnection */

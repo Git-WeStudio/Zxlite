@@ -8,6 +8,7 @@ import org.json.JSONObject
 import we.zxlite.bean.UserBean
 import we.zxlite.utils.BaseUtils.EMPTY_STR
 import we.zxlite.utils.BaseUtils.db
+import we.zxlite.utils.BaseUtils.rc4
 import we.zxlite.utils.HttpUtils.connApi
 import we.zxlite.utils.HttpUtils.Type.JsonObject
 import java.lang.System.currentTimeMillis
@@ -29,7 +30,7 @@ object UserUtils {
     private const val TOKEN = "token" //验证码
     private const val NAME = "name" //名字
     //登录参数
-    private val logParams get() = "loginName=${cfg.logName}&password=${cfg.logPwd}&description={'encrypt':['password']}"
+    private val logParams get() = "loginName=${cfg.logName}&password=${cfg.logPwd?.rc4}&description={'encrypt':['password']}"
 
     /** 登录
      * @param userName 用户名
