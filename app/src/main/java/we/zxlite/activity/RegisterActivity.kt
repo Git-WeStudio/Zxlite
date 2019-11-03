@@ -30,7 +30,7 @@ class RegisterActivity : BaseActivity() {
     //获取编辑框手机号码
     private val regPhone get() = regPhoneNumber.text.toString()
     //获取编辑框密码
-    private val regPwd get() = regPassword.text.toString().rc4()
+    private val regPwd get() = regPassword.text.toString().rc4
     //获取编辑框图形验证码
     private val regImage get() = regImgCode.text.toString()
     //获取编辑框手机验证码
@@ -52,22 +52,22 @@ class RegisterActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
+        loadCode()
     }
 
     override fun initView() {
-        loadImgCode()
-        regImgBtn.setOnClickListener { loadImgCode() }
+        regImgBtn.setOnClickListener { loadCode() }
         regSmsBtn.setOnClickListener { getSms() }
         regBtn.setOnClickListener { onReg() }
     }
 
     /**获取图形验证码*/
-    private fun loadImgCode() = launch {
+    private fun loadCode() = launch {
         connApi(IMG_URL, EMPTY_STR, false, JsonObject).run {
             if (this is JSONObject) {
                 sid = optString(SID)
                 img = optString(IMG)
-                GlideApp.with(this@RegisterActivity).load(img.bitmap())
+                GlideApp.with(this@RegisterActivity).load(img.bitmap)
                     .transform(CenterCrop(), RoundedCorners(8)).into(regImg)
             } else {
                 GlideApp.with(this@RegisterActivity)
@@ -78,34 +78,37 @@ class RegisterActivity : BaseActivity() {
         }
     }
 
-    /**获取短信验证码*/
+    /** 获取短信验证码 */
     private fun getSms() {
         if (regPhone.isNotEmpty() && regPwd.isNotEmpty() && regImage.isNotEmpty()) launch {
             connApi(SMS_URL, smsParams, false, JsonObject).let {
                 withContext(Main) {
                     if (it is JSONObject)
                         Snackbar.make(regSmsBtn, R.string.smsSuccess, LENGTH_SHORT).show()
-                    else {
-                        Snackbar.make(regSmsBtn, (it as Error).get(), LENGTH_SHORT).show()
-                        loadImgCode()
+                    else if (it is Error) {
+                        loadCode()
+                        Snackbar.make(regSmsBtn, it.message, LENGTH_SHORT).show()
                     }
                 }
             }
         } else Snackbar.make(regSmsBtn, R.string.valueIncorrect, LENGTH_SHORT).show()
     }
 
-    /**注册账号*/
+    /** 注册账号 */
     private fun onReg() {
-        if (regPwd.isNotEmpty() && regSms.isNotEmpty()) launch {
+        regBtn.isEnabled = false
+        launch {
             connApi(REG_URL, regParams, false, JsonObject).let {
                 withContext(Main) {
                     if (it is JSONObject)
                         Snackbar.make(regSmsBtn, R.string.regSuccess, Snackbar.LENGTH_INDEFINITE)
                             .setAction(R.string.invokeAction) { finish() }
                             .show()
-                    else Snackbar.make(regBtn, (it as Error).get(), LENGTH_SHORT).show()
+                    else if (it is Error)
+                        Snackbar.make(regBtn, it.message, LENGTH_SHORT).show()
+                    regBtn.isEnabled = true
                 }
             }
-        } else Snackbar.make(regBtn, R.string.valueIncorrect, LENGTH_SHORT).show()
+        }
     }
 }

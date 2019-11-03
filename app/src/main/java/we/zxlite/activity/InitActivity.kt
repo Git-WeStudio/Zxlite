@@ -32,7 +32,8 @@ class InitActivity : BaseActivity() {
     private fun init() = launch {
         db.use {
             select(TABLE_CFG, ITEM_VALUE).whereSimple("$ITEM_NAME = '$SELECT_USER'")
-                .exec { if (moveToFirst()) getString(0) else null }?.let { userName ->
+                .exec { if (moveToFirst()) getString(0) else null }
+                ?.let { userName ->
                     select(TABLE_RMB, ITEM_VALUE).whereSimple("$ITEM_NAME = '$userName'")
                         .exec { if (moveToFirst()) getString(0) else null }
                         .let { userPwd -> return@use listOf(userName, userPwd) }

@@ -10,10 +10,10 @@ import we.zxlite.utils.HttpUtils.Type.JsonObject
 
 object UserUtils {
 
-    var config = UserBean() //用户配置
+    var cfg = UserBean() //用户配置
 
     private const val LOG_URL = "https://www.zhixue.com/container/app/login" //登录账号
-    private const val INFO_URL = "https://www.zhixue.com/zhixuebao/base/common/getUserInfo?" //用户信息
+    private const val INFO_URL = "https://www.zhixue.com/zhixuebao/base/common/getUserInfo" //用户信息
 
     private const val USER_INFO = "userInfo"
     private const val SERVER_INFO = "serverInfo"
@@ -22,33 +22,33 @@ object UserUtils {
     private const val TOKEN = "token"
     private const val NAME = "name"
 
-    private val logParams get() = "loginName=${config.logName}&password=${config.logPwd}&description={'encrypt':['password']}" //登录参数
+    private val logParams get() = "loginName=${cfg.logName}&password=${cfg.logPwd}&description={'encrypt':['password']}" //登录参数
 
     /** 登录
      * @param userName 用户名
      * @param userPwd 用户密码
      */
     suspend fun login(
-        userName: String? = config.logName,
-        userPwd: String? = config.logPwd
+        userName: String? = cfg.logName,
+        userPwd: String? = cfg.logPwd
     ) = GlobalScope.async {
-        config.logName = userName
-        config.logPwd = userPwd
+        cfg.logName = userName
+        cfg.logPwd = userPwd
         connApi(LOG_URL, logParams, false, JsonObject).run {
             if (this is JSONObject) {
-                config.userName = optJSONObject(USER_INFO)!!.optString(NAME)
-                config.token = optString(TOKEN)
-                config.serviceTime = optJSONObject(SERVER_INFO)!!.optLong(CUR_SERVER_TIME)
+                cfg.userName = optJSONObject(USER_INFO)!!.optString(NAME)
+                cfg.token = optString(TOKEN)
+                cfg.serviceTime = optJSONObject(SERVER_INFO)!!.optLong(CUR_SERVER_TIME)
                 connApi(INFO_URL, EMPTY_STR, true, JsonObject).run {
-                    if (this is JSONObject) config.userId = this.optString(CUR_CHILD_ID)
+                    if (this is JSONObject) cfg.userId = optString(CUR_CHILD_ID)
                 }
             }
         }
-        return@async config.userId != null
+        return@async cfg.userId != null
     }.await()
 
     /** 清除配置信息 */
     fun clean() {
-        config = UserBean()
+        cfg = UserBean()
     }
 }

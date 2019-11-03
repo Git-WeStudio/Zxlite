@@ -4,13 +4,13 @@ import android.os.Bundle
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_SHORT
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jetbrains.anko.db.replace
 import org.jetbrains.anko.startActivity
 import we.zxlite.R
+import we.zxlite.utils.BaseUtils.overridePendingTransition
 import we.zxlite.utils.BaseUtils.db
 import we.zxlite.utils.BaseUtils.rc4
 import we.zxlite.utils.SqlUtils.Helper.Companion.ITEM_NAME
@@ -26,7 +26,7 @@ class LoginActivity : BaseActivity() {
         get() = loginUsername.text.toString()
 
     private val logUserPwd //获取编辑框密码参数
-        get() = loginPassword.text.toString().rc4()
+        get() = loginPassword.text.toString().rc4
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,9 +34,7 @@ class LoginActivity : BaseActivity() {
     }
 
     override fun initView() {
-        loginReg.setOnClickListener {
-            startActivity<RegisterActivity>()
-        }
+        loginReg.setOnClickListener { startActivity<RegisterActivity>() }
         loginBtn.setOnClickListener { onLogin() }
     }
 
@@ -55,7 +53,7 @@ class LoginActivity : BaseActivity() {
                 withContext(Main) {
                     startActivity<MainActivity>()
                     finish()
-                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                    overridePendingTransition()
                 }
             } else withContext(Main) {
                 loginBtn.isEnabled = true
