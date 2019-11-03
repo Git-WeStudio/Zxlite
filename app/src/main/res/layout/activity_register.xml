@@ -8,7 +8,8 @@
     android:fadingEdge="none"
     android:fillViewport="true"
     android:overScrollMode="never"
-    android:scrollbars="none">
+    android:scrollbars="none"
+    tools:context=".activity.RegisterActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -16,8 +17,7 @@
         android:background="@color/colorPrimary"
         android:paddingLeft="36dp"
         android:paddingRight="36dp"
-        android:paddingBottom="4dp"
-        tools:context=".activity.LoginActivity">
+        android:paddingBottom="4dp">
 
         <TextView
             android:id="@+id/regTitle"
