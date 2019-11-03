@@ -10,7 +10,7 @@ import kotlinx.coroutines.withContext
 import org.jetbrains.anko.db.replace
 import org.jetbrains.anko.startActivity
 import we.zxlite.R
-import we.zxlite.utils.BaseUtils.overridePendingTransition
+import we.zxlite.utils.BaseUtils.transition
 import we.zxlite.utils.BaseUtils.db
 import we.zxlite.utils.BaseUtils.rc4
 import we.zxlite.utils.SqlUtils.Helper.Companion.ITEM_NAME
@@ -53,7 +53,7 @@ class LoginActivity : BaseActivity() {
                 withContext(Main) {
                     startActivity<MainActivity>()
                     finish()
-                    overridePendingTransition()
+                    transition()
                 }
             } else withContext(Main) {
                 loginBtn.isEnabled = true

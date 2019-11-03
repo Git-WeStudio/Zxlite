@@ -1,24 +1,36 @@
 package we.zxlite.utils
 
+import android.app.Activity
+import android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK
+import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
+import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
+import kotlinx.coroutines.withContext
+import org.jetbrains.anko.intentFor
 import org.json.JSONArray
 import org.json.JSONObject
+import we.zxlite.R
+import we.zxlite.activity.LoginActivity
 import we.zxlite.utils.BaseUtils.EMPTY_STR
 import we.zxlite.utils.BaseUtils.conn
 import we.zxlite.utils.BaseUtils.md5
-import we.zxlite.utils.UserUtils.cfg
-import we.zxlite.utils.HttpUtils.Type.JsonObject
+import we.zxlite.utils.BaseUtils.transition
 import we.zxlite.utils.HttpUtils.Type.JsonArray
+import we.zxlite.utils.HttpUtils.Type.JsonObject
+import we.zxlite.utils.UserUtils.cfg
+import we.zxlite.utils.UserUtils.cleanConfig
+import we.zxlite.utils.UserUtils.isExpired
+import we.zxlite.utils.UserUtils.login
+import we.zxlite.utils.UserUtils.updateConfig
 import java.io.DataOutputStream
 import java.lang.System.currentTimeMillis
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import java.util.UUID.randomUUID
-import java.util.concurrent.TimeoutException
 
 object HttpUtils {
-    private const val AUTH_KEY = "iflytek!@#123student"
+    private const val AUTH_KEY = "iflytek!@#123student" //验证码
     private const val AUTH_CODE = "authbizcode"
     private const val AUTH_GUID = "authguid"
     private const val AUTH_TIME = "authtimestamp"
@@ -26,12 +38,37 @@ object HttpUtils {
     private const val ERROR_CODE = "errorCode"
     private const val ERROR_INFO = "errorInfo"
     private const val ERROR_RESULT = "result"
-
+    //验证参数
     private val tokenParams get() = "?token=${cfg.token}&childrenId=${cfg.userId}"
 
     /** 回调数据类型 */
     enum class Type {
         JsonObject, JsonArray
+    }
+
+    /** 验证接口访问
+     * @param url 接口地址
+     * @param params 提交数据
+     * @param add 增加验证
+     * @param type 返回数据类型
+     */
+    suspend fun Activity.api(url: String, params: String, add: Boolean, type: Type?): Any {
+        if (isExpired) {
+            updateConfig()
+            if (!login()) {
+                cleanConfig() //清除保存的配置
+                withContext(Main) {
+                    startActivity(
+                        intentFor<LoginActivity>()
+                            .addFlags(FLAG_ACTIVITY_CLEAR_TASK)
+                            .addFlags(FLAG_ACTIVITY_NEW_TASK)
+                    )
+                    transition()
+                }
+                return Error(Exception(getString(R.string.loginFailed)))
+            }
+        }
+        return connApi(url, params, add, type)
     }
 
     /** 接口访问

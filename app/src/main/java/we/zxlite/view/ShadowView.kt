@@ -11,6 +11,7 @@ import android.view.View
 import we.zxlite.R
 import we.zxlite.utils.BaseUtils.color
 
+/** 阴影控件 */
 class ShadowView(ctx: Context, attrs: AttributeSet) : View(ctx, attrs) {
     init {
         if (SDK_INT >= JELLY_BEAN) {

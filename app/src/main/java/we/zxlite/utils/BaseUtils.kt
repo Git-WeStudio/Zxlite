@@ -19,7 +19,7 @@ object BaseUtils {
     const val EMPTY_STR = ""
 
     /** 默认跳转动画 */
-    fun Activity.overridePendingTransition() =
+    fun Activity.transition() =
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
 
     /** 获取颜色值

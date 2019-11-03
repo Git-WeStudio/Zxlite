@@ -14,7 +14,8 @@ class MainActivity : BaseActivity() {
 
     override fun initView() {
         setSupportActionBar(mainBar)
-        val toggle = ActionBarDrawerToggle(this, mainDrawer, mainBar, R.string.appName, R.string.appName)
+        val toggle =
+            ActionBarDrawerToggle(this, mainDrawer, mainBar, R.string.appName, R.string.appName)
         mainDrawer.addDrawerListener(toggle)
         toggle.syncState()
     }
