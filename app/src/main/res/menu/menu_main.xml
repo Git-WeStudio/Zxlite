@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="&#160;&#160;报告类型">
+        <menu>
+            <item android:title="考试报告" />
+            <item android:title="作业报告" />
+        </menu>
+    </item>
+    <item android:title="&#160;&#160;账号安全">
+        <menu>
+            <item android:title="绑定手机" />
+            <item android:title="修改密码" />
+        </menu>
+    </item>
+    <group android:id="@+id/group">
+        <item android:title="切换账号" />
+        <item android:title="注销登录" />
+    </group>
+    <item android:title="&#160;&#160;其他相关">
+        <menu>
+            <item android:title="检测更新" />
+            <item android:title="意见反馈" />
+            <item android:title="关于我们" />
+        </menu>
+    </item>
+</menu>

@@ -14,6 +14,7 @@ import org.jetbrains.anko.db.replace
 import org.jetbrains.anko.db.select
 import org.jetbrains.anko.startActivity
 import we.zxlite.R
+import we.zxlite.utils.BaseUtils.EMPTY_STR
 import we.zxlite.utils.BaseUtils.transition
 import we.zxlite.utils.BaseUtils.db
 import we.zxlite.utils.SqlUtils.Helper.Companion.ITEM_NAME
@@ -48,8 +49,8 @@ class LoginActivity : BaseActivity() {
                 if (s.length > 6) db.use {
                     select(TABLE_RMB, ITEM_VALUE)
                         .whereSimple("$ITEM_NAME = '${logUserName}'")
-                        .exec { if (moveToFirst()) getString(0) else null }
-                        ?.let { loginPassword.setText(it) }
+                        .exec { if (moveToFirst()) getString(0) else EMPTY_STR }
+                        .let { loginPassword.setText(it) }
                 }
             }
 
