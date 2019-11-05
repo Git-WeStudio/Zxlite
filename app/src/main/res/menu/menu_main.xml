@@ -1,26 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:title="&#160;&#160;报告类型">
+    <item android:title="@string/menuReportType">
         <menu>
-            <item android:title="考试报告" />
-            <item android:title="作业报告" />
+            <item
+                android:id="@+id/menuReportExam"
+                android:title="@string/menuReportExam" />
+            <item
+                android:id="@+id/menuReportHomework"
+                android:title="@string/menuReportHomework" />
         </menu>
     </item>
-    <item android:title="&#160;&#160;账号安全">
+    <item android:title="@string/menuAccountSecurity">
         <menu>
-            <item android:title="绑定手机" />
-            <item android:title="修改密码" />
+            <item
+                android:id="@+id/menuBindMobile"
+                android:title="@string/menuBindMobile" />
+            <item
+                android:id="@+id/menuModifyPwd"
+                android:title="@string/menuModifyPwd" />
         </menu>
     </item>
     <group android:id="@+id/group">
-        <item android:title="切换账号" />
-        <item android:title="注销登录" />
+        <item
+            android:id="@+id/menuSwitchAccount"
+            android:title="@string/menuSwitchAccount" />
+        <item
+            android:id="@+id/menuLogout"
+            android:title="@string/menuLogout" />
     </group>
-    <item android:title="&#160;&#160;其他相关">
+    <item android:title="@string/menuRelated">
         <menu>
-            <item android:title="检测更新" />
-            <item android:title="意见反馈" />
-            <item android:title="关于我们" />
+            <item
+                android:id="@+id/menuUpdate"
+                android:title="@string/menuUpdate" />
+            <item
+                android:id="@+id/menuFeedback"
+                android:title="@string/menuFeedback" />
+            <item
+                android:id="@+id/menuAbout"
+                android:title="@string/menuAbout" />
         </menu>
     </item>
 </menu>

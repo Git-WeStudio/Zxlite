@@ -1,5 +1,17 @@
 <resources>
     <string name="appName">智学网</string>
+    <string name="menuReportType">&#160;&#160;报告类型</string>
+    <string name="menuAccountSecurity">&#160;&#160;账号安全</string>
+    <string name="menuRelated">&#160;&#160;其他相关</string>
+    <string name="menuReportExam">考试报告</string>
+    <string name="menuReportHomework">作业报告</string>
+    <string name="menuBindMobile">绑定手机</string>
+    <string name="menuModifyPwd">修改密码</string>
+    <string name="menuUpdate">检测更新</string>
+    <string name="menuFeedback">意见反馈</string>
+    <string name="menuAbout">关于我们</string>
+    <string name="menuLogout">注销登录</string>
+    <string name="menuSwitchAccount">切换账号</string>
     <string name="loginTitle">欢迎登录</string>
     <string name="loginSubTitle">智学，让学习更简单！</string>
     <string name="loginUsername">输入手机号或用户名</string>
