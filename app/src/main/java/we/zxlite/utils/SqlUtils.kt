@@ -20,6 +20,7 @@ object SqlUtils {
             const val ITEM_NAME = "ITEM_NAME"
             const val ITEM_VALUE = "ITEM_VALUE"
             const val SELECT_USER = "SELECT_USER" //选中用户
+            const val REPORT_TYPE = "REPORT_TYPE" //报告类型
 
             private var instance: Helper? = null
 

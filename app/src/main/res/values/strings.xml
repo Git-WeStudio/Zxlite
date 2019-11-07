@@ -28,8 +28,8 @@
     <string name="regSmsBtn">获取验证码</string>
     <string name="regSmsCode">输入手机验证码</string>
     <string name="regBtn">注册</string>
+    <string name="regSuccess">注册成功</string>
     <string name="smsSuccess">发送成功</string>
     <string name="valueIncorrect">参数填写不正确</string>
-    <string name="regSuccess">注册成功</string>
     <string name="invokeAction">返回</string>
 </resources>

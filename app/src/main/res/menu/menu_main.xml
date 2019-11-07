@@ -4,12 +4,10 @@
         <menu>
             <item
                 android:id="@+id/menuReportExam"
-                android:checked="true"
                 android:title="@string/menuReportExam" />
             <item
                 android:id="@+id/menuReportHomework"
                 android:title="@string/menuReportHomework" />
-
         </menu>
     </item>
     <item android:title="@string/menuAccountSecurity">
