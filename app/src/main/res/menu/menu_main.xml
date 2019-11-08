@@ -2,12 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:title="@string/menuReportType">
         <menu>
-            <item
-                android:id="@+id/menuReportExam"
-                android:title="@string/menuReportExam" />
-            <item
-                android:id="@+id/menuReportHomework"
-                android:title="@string/menuReportHomework" />
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/menuReportExam"
+                    android:title="@string/menuReportExam" />
+                <item
+                    android:id="@+id/menuReportHomework"
+                    android:title="@string/menuReportHomework" />
+            </group>
         </menu>
     </item>
     <item android:title="@string/menuAccountSecurity">

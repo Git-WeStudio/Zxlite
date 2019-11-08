@@ -3,12 +3,14 @@ package we.zxlite.activity
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
+import com.google.android.material.internal.NavigationMenuView
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.header_main.view.*
 import org.jetbrains.anko.db.replace
 import org.jetbrains.anko.db.select
 import we.zxlite.R
+import we.zxlite.utils.BaseUtils.color
 import we.zxlite.utils.BaseUtils.db
 import we.zxlite.utils.SqlUtils.Helper.Companion.ITEM_NAME
 import we.zxlite.utils.SqlUtils.Helper.Companion.ITEM_VALUE
@@ -32,17 +34,16 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         setSupportActionBar(mainBar)
         val toggle =
             ActionBarDrawerToggle(this, mainDrawer, mainBar, R.string.appName, R.string.appName)
+        val menuView = mainNav.getChildAt(0) as NavigationMenuView
         mainDrawer.addDrawerListener(toggle)
         toggle.syncState()
+        menuView.isVerticalScrollBarEnabled = false
         mainNav.getHeaderView(0).headerTitle.text = cfg.userName
         db.use {
             select(TABLE_CFG, ITEM_VALUE)
                 .whereSimple("$ITEM_NAME = '$REPORT_TYPE'")
                 .exec { if (moveToFirst()) getString(0) else EXAM_TYPE }
-                .let {
-                    mainNav.menu.findItem(if (it == EXAM_TYPE) R.id.menuReportExam else R.id.menuReportHomework)
-                        .isChecked = true
-                }
+                .let { mainNav.setCheckedItem(if (it == EXAM_TYPE) R.id.menuReportExam else R.id.menuReportHomework) }
         }
         mainNav.setNavigationItemSelectedListener(this)
     }
@@ -61,9 +62,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
      * @param item 菜单项
      */
     private fun changeReportType(type: String, item: MenuItem) {
-        item.isChecked = true
-        mainNav.menu.findItem(if (type == EXAM_TYPE) R.id.menuReportHomework else R.id.menuReportExam)
-            .isChecked = false
+        mainNav.setCheckedItem(item)
         db.use { replace(TABLE_CFG, ITEM_NAME to REPORT_TYPE, ITEM_VALUE to type) }
         mainDrawer.closeDrawers()
     }
