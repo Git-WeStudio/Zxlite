@@ -34,6 +34,8 @@ object SqlUtils {
         }
 
         override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
+            db.dropTable(TABLE_RMB)
+            db.dropTable(TABLE_CFG)
         }
     }
 

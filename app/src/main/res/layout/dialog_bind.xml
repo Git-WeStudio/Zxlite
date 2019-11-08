@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="18dp">
+
+    <TextView
+        android:id="@+id/bindTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/menuBindMobile"
+        android:textColor="@color/colorTitle"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/bindMobileTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/bindMobileTitle"
+        android:textColor="@color/colorTitle"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bindTitle" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/bindMobile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:background="@null"
+        android:drawableBottom="@drawable/edit_line"
+        android:drawablePadding="6dp"
+        android:inputType="phone"
+        android:maxLength="20"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:textCursorDrawable="@null"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bindMobileTitle" />
+
+    <TextView
+        android:id="@+id/bindCodeTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/bindCodeTitle"
+        android:textColor="@color/colorTitle"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bindMobile" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/bindCode"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@null"
+        android:drawableBottom="@drawable/edit_line"
+        android:drawablePadding="6dp"
+        android:inputType="number"
+        android:maxLength="4"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:textCursorDrawable="@null"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@id/bindCodeBtn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bindCodeTitle" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/bindCodeBtn"
+        style="?android:buttonBarButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/bindCodeBtn"
+        app:layout_constraintBottom_toBottomOf="@+id/bindCode"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/bindCode" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/bindBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/bindBtn"
+        android:textStyle="bold"
+        app:backgroundTint="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bindCodeBtn" />
+</androidx.constraintlayout.widget.ConstraintLayout>

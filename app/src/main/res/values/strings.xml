@@ -31,5 +31,14 @@
     <string name="regSuccess">注册成功</string>
     <string name="smsSuccess">发送成功</string>
     <string name="valueIncorrect">参数填写不正确</string>
-    <string name="invokeAction">返回</string>
+    <string name="actionConfirm">确定</string>
+    <string name="actionReturn">返回</string>
+    <string name="toastLogout">注销登录？</string>
+    <string name="bindMobileTitle">请输入手机号码</string>
+    <string name="bindCodeTitle">请输入验证码</string>
+    <string name="bindBtn">绑定</string>
+    <string name="bindCodeBtn">获取验证码</string>
+    <string name="modifyOriginTitle">请输入旧密码</string>
+    <string name="modifyNewTitle">请输入新密码</string>
+    <string name="modifyBtn">绑定</string>
 </resources>

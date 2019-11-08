@@ -102,7 +102,7 @@ class RegisterActivity : BaseActivity() {
                 withContext(Main) {
                     if (it is JSONObject)
                         Snackbar.make(regSmsBtn, R.string.regSuccess, Snackbar.LENGTH_INDEFINITE)
-                            .setAction(R.string.invokeAction) { finish() }
+                            .setAction(R.string.actionReturn) { finish() }
                             .show()
                     else if (it is Error)
                         Snackbar.make(regBtn, it.message, LENGTH_SHORT).show()
