@@ -41,4 +41,5 @@
     <string name="modifyOriginTitle">请输入旧密码</string>
     <string name="modifyNewTitle">请输入新密码</string>
     <string name="modifyBtn">绑定</string>
+    <string name="modifySuccess">修改成功</string>
 </resources>

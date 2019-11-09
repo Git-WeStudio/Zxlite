@@ -27,6 +27,7 @@ object UserUtils {
     private const val SERVER_INFO = "serverInfo" //服务信息
     private const val CUR_SERVER_TIME = "curServerTime" //服务时间
     private const val CUR_CHILD_ID = "curChildId" //选定Id
+    private const val LOGIN_NAME = "loginName" //登录名
     private const val TOKEN = "token" //验证码
     private const val NAME = "name" //名字
     //登录参数
@@ -44,15 +45,16 @@ object UserUtils {
         cfg.logPwd = userPwd
         connApi(LOG_URL, logParams, false, JsonObject).run {
             if (this is JSONObject) {
-                cfg.userName = optJSONObject(USER_INFO)!!.optString(NAME)
-                cfg.token = optString(TOKEN)
+                cfg.loginName = optJSONObject(USER_INFO)!!.optString(LOGIN_NAME)
+                cfg.curName = optJSONObject(USER_INFO)!!.optString(NAME)
                 cfg.serviceTime = optJSONObject(SERVER_INFO)!!.optLong(CUR_SERVER_TIME)
+                cfg.token = optString(TOKEN)
                 connApi(INFO_URL, EMPTY_STR, true, JsonObject).run {
-                    if (this is JSONObject) cfg.userId = optString(CUR_CHILD_ID)
+                    if (this is JSONObject) cfg.curId = optString(CUR_CHILD_ID)
                 }
             }
         }
-        return@async cfg.userId != null
+        return@async cfg.curId != null
     }.await()
 
     /** 更新信息 */

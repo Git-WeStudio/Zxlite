@@ -1,13 +1,20 @@
 package we.zxlite.dialog
 
 import android.os.Bundle
-import com.google.android.material.bottomsheet.BottomSheetDialog
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import we.zxlite.R
 
 class BindDialog : BaseSheetDialog() {
 
-    override fun onCreateDialog(savedInstanceState: Bundle?) = BottomSheetDialog(context!!).apply {
-        setContentView(R.layout.dialog_bind)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        return inflater.inflate(R.layout.dialog_bind, container)
     }
+
 
 }

@@ -41,7 +41,7 @@ class RegisterActivity : BaseActivity() {
     private val regParams get() = "passwd=$regPwd&role=parent&smsCode=$regSms&sid=$sid"
 
     companion object {
-        private const val REG_URL = "https://www.zhixue.com/container/app/reg/register?"//注册账号
+        private const val REG_URL = "https://www.zhixue.com/container/app/reg/register"//注册账号
         private const val IMG_URL = "https://www.zhixue.com/container/app/reg/getImageCode"//获取图像验证码
         private const val SMS_URL = "https://www.zhixue.com/container/app/reg/getSmsCode"//获取手机验证码
 

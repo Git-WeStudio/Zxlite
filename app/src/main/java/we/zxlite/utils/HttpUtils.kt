@@ -39,7 +39,7 @@ object HttpUtils {
     private const val ERROR_INFO = "errorInfo"
     private const val ERROR_RESULT = "result"
     //验证参数
-    private val tokenParams get() = "?token=${cfg.token}&childrenId=${cfg.userId}"
+    private val tokenParams get() = "?token=${cfg.token}&childrenId=${cfg.curId}"
 
     /** 回调数据类型 */
     enum class Type {

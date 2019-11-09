@@ -15,6 +15,7 @@ import org.jetbrains.anko.db.select
 import org.jetbrains.anko.startActivity
 import we.zxlite.R
 import we.zxlite.dialog.BindDialog
+import we.zxlite.dialog.ModifyDialog
 import we.zxlite.utils.BaseUtils.EMPTY_STR
 import we.zxlite.utils.BaseUtils.db
 import we.zxlite.utils.BaseUtils.transition
@@ -46,7 +47,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         mainDrawer.addDrawerListener(toggle)
         toggle.syncState()
         menuView.isVerticalScrollBarEnabled = false
-        mainNav.getHeaderView(0).headerTitle.text = cfg.userName
+        mainNav.getHeaderView(0).headerTitle.text = cfg.curName
         db.use {
             select(TABLE_CFG, ITEM_VALUE)
                 .whereSimple("$ITEM_NAME = '$REPORT_TYPE'")
@@ -62,6 +63,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             R.id.menuReportHomework -> changeReportType(HOMEWORK_TYPE, item)
             R.id.menuLogout -> onLogout()
             R.id.menuBindMobile -> BindDialog().show(supportFragmentManager, EMPTY_STR)
+            R.id.menuModifyPwd -> ModifyDialog().show(supportFragmentManager, EMPTY_STR)
             else -> Unit
         }
         return true
