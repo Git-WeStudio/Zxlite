@@ -6,7 +6,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Base64
 import androidx.core.content.ContextCompat
-import org.json.JSONObject
 import java.net.HttpURLConnection
 import java.net.URL
 import java.security.MessageDigest
