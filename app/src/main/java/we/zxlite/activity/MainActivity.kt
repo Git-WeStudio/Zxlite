@@ -28,16 +28,51 @@ import we.zxlite.utils.UserUtils.cfg
 import we.zxlite.utils.UserUtils.cleanConfig
 import android.content.Intent
 import android.net.Uri
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.jetbrains.anko.email
+import org.json.JSONObject
+import we.zxlite.adapter.ExamListAdapter
+import we.zxlite.adapter.ExamListAdapter.ItemDecoration
+import we.zxlite.bean.ReportListBean
 import we.zxlite.dialog.AboutDialog
 import we.zxlite.dialog.AccountDialog
+import we.zxlite.utils.HttpUtils.Error
+import we.zxlite.utils.HttpUtils.Type.JsonObject
+import we.zxlite.utils.HttpUtils.api
 
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     companion object {
+        //考试报告
         private const val EXAM_TYPE = "EXAM_TYPE"
+        //作业报告
         private const val HOMEWORK_TYPE = "HOMEWORK_TYPE"
+        //考试列表
+        private const val EXAM_INFO_LIST = "examInfoList"
+        //考试id
+        private const val EXAM_ID = "examId"
+        //考试名称
+        private const val EXAM_NAME = "examName"
+        //考试时间
+        private const val CREATE_TIME = "examCreateDateTime"
+        //考试
+        private const val EXAM = "exam"
+        //作业
+        private const val HOMEWORK = "homework"
+        //页面列表
+        private const val LIST_URL = "https://www.zhixue.com/zhixuebao/report/getPageExamList"
     }
+
+    //报告类型
+    private val reportType get() = if (mainNav.checkedItem!!.itemId == R.id.menuReportExam) EXAM else HOMEWORK
+    //报告页码
+    private val reportIndex = 1
+    //报告列表
+    private val reportList = ArrayList<ReportListBean>()
+    //报告参数
+    private val reportParams get() = "reportType=$reportType&pageIndex=$reportIndex&pageSize=10&actualPosition=0"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +95,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 .let { mainNav.setCheckedItem(if (it == EXAM_TYPE) R.id.menuReportExam else R.id.menuReportHomework) }
         }
         mainNav.setNavigationItemSelectedListener(this)
+        mainRecycler.adapter = ExamListAdapter(reportList)
+        mainRecycler.addItemDecoration(ItemDecoration())
+        loadReport()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -86,6 +124,35 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         db.use { replace(TABLE_CFG, ITEM_NAME to REPORT_TYPE, ITEM_VALUE to type) }
         mainNav.setCheckedItem(item)
         mainDrawer.closeDrawers()
+    }
+
+    /** 加载报告 */
+    private fun loadReport() {
+        mainRefresh.isRefreshing = true
+        launch {
+            api(LIST_URL, reportParams, true, JsonObject).let {
+                if (it is JSONObject) {
+                    val examInfoList = it.optJSONArray(EXAM_INFO_LIST)
+                    for (i in 0 until examInfoList!!.length()) {
+                        val item = examInfoList.optJSONObject(i)
+                        reportList.add(
+                            ReportListBean(
+                                item.optString(EXAM_ID),
+                                item.optString(EXAM_NAME),
+                                item.optLong(CREATE_TIME)
+                            )
+                        )
+                    }
+                    withContext(Main) {
+                        mainRefresh.isRefreshing = false
+                        mainRecycler.adapter!!.notifyDataSetChanged()
+                    }
+                } else if (it is Error) withContext(Main) {
+                    mainRefresh.isRefreshing = false
+                    Snackbar.make(mainDrawer, it.message, LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 
     /** 意见反馈 */

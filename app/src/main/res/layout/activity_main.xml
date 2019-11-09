@@ -46,8 +46,12 @@
             app:layout_constraintTop_toBottomOf="@+id/mainBarLayout">
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/mainRecycler"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

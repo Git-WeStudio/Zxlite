@@ -8,4 +8,5 @@
     <color name="colorSubTitle">#A5A9AF</color>
     <color name="colorLine">#ECEFF1</color>
     <color name="colorShadow">#EEEEEE</color>
+    <color name="colorNum">#262626</color>
 </resources>
