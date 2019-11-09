@@ -11,6 +11,10 @@ import we.zxlite.utils.BaseUtils.db
 import we.zxlite.utils.BaseUtils.rc4
 import we.zxlite.utils.HttpUtils.connApi
 import we.zxlite.utils.HttpUtils.Type.JsonObject
+import we.zxlite.utils.SqlUtils.Helper.Companion.ITEM_NAME
+import we.zxlite.utils.SqlUtils.Helper.Companion.ITEM_VALUE
+import we.zxlite.utils.SqlUtils.Helper.Companion.SELECT_USER
+import we.zxlite.utils.SqlUtils.Helper.Companion.TABLE_CFG
 import java.lang.System.currentTimeMillis
 
 object UserUtils {
@@ -60,12 +64,12 @@ object UserUtils {
     /** 更新信息 */
     fun Context.updateConfig() {
         db.use {
-            select(SqlUtils.Helper.TABLE_CFG, SqlUtils.Helper.ITEM_VALUE)
-                .whereSimple("${SqlUtils.Helper.ITEM_NAME} = '${SqlUtils.Helper.SELECT_USER}'")
+            select(TABLE_CFG, ITEM_VALUE)
+                .whereSimple("$ITEM_NAME = '$SELECT_USER'")
                 .exec { if (moveToFirst()) getString(0) else null }
                 ?.let { userName ->
-                    select(SqlUtils.Helper.TABLE_RMB, SqlUtils.Helper.ITEM_VALUE)
-                        .whereSimple("${SqlUtils.Helper.ITEM_NAME} = '$userName'")
+                    select(SqlUtils.Helper.TABLE_RMB, ITEM_VALUE)
+                        .whereSimple("$ITEM_NAME = '$userName'")
                         .exec { if (moveToFirst()) getString(0) else null }
                         ?.let { userPwd ->
                             cfg.logName = userName

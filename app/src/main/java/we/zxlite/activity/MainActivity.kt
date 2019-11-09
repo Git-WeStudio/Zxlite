@@ -26,6 +26,11 @@ import we.zxlite.utils.SqlUtils.Helper.Companion.SELECT_USER
 import we.zxlite.utils.SqlUtils.Helper.Companion.TABLE_CFG
 import we.zxlite.utils.UserUtils.cfg
 import we.zxlite.utils.UserUtils.cleanConfig
+import android.content.Intent
+import android.net.Uri
+import org.jetbrains.anko.email
+import we.zxlite.dialog.AboutDialog
+import we.zxlite.dialog.AccountDialog
 
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -61,7 +66,11 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         when (item.itemId) {
             R.id.menuReportExam -> changeReportType(EXAM_TYPE, item)
             R.id.menuReportHomework -> changeReportType(HOMEWORK_TYPE, item)
+            R.id.menuUpdate -> onUpdate()
             R.id.menuLogout -> onLogout()
+            R.id.menuFeedback -> onFeedback()
+            R.id.menuSwitchAccount -> AccountDialog().show(supportFragmentManager, EMPTY_STR)
+            R.id.menuAbout -> AboutDialog().show(supportFragmentManager, EMPTY_STR)
             R.id.menuBindMobile -> BindDialog().show(supportFragmentManager, EMPTY_STR)
             R.id.menuModifyPwd -> ModifyDialog().show(supportFragmentManager, EMPTY_STR)
             else -> Unit
@@ -77,6 +86,37 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         db.use { replace(TABLE_CFG, ITEM_NAME to REPORT_TYPE, ITEM_VALUE to type) }
         mainNav.setCheckedItem(item)
         mainDrawer.closeDrawers()
+    }
+
+    /** 意见反馈 */
+    private fun onFeedback() {
+        Snackbar
+            .make(mainDrawer, R.string.toastFeedback, LENGTH_LONG)
+            .setAction(R.string.actionConfirm) {
+                if (!email("mail-westudio@gmail.com", "智学网Lite意见反馈")) {
+                    Snackbar.make(mainDrawer, R.string.invokeMailFailed, LENGTH_SHORT).show()
+                }
+            }
+            .show()
+    }
+
+    /** 检测更新 */
+    private fun onUpdate() {
+        Snackbar
+            .make(mainDrawer, R.string.toastUpdate, LENGTH_LONG)
+            .setAction(R.string.actionConfirm) {
+                try {
+                    startActivity(
+                        Intent().apply {
+                            data =
+                                Uri.parse("mqqopensdkapi://bizAgent/qm/qr?url=http://qm.qq.com/cgi-bin/qm/qr?from=app&p=android&k=V8t37i1Yeow7zm-RPuBenpn2TGeTynCS")
+                        })
+                } catch (e: Exception) {
+                    Snackbar.make(mainDrawer, R.string.invokeQQFailed, LENGTH_SHORT).show()
+                }
+
+            }
+            .show()
     }
 
     /** 注销登录 */

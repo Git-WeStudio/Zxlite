@@ -26,6 +26,7 @@ import we.zxlite.utils.SqlUtils.Helper.Companion.TABLE_RMB
 class ModifyDialog : BaseSheetDialog() {
 
     companion object {
+        //修改密码
         private const val MODIFY_URL = "https://www.zhixue.com/container/app/modifyOriginPWD"
     }
 
@@ -50,7 +51,6 @@ class ModifyDialog : BaseSheetDialog() {
             val newPwd = modifyNewPwd
             val originPwd = modifyOriginPwd
             if (newPwd.isNotEmpty() && originPwd.isNotEmpty()) launch {
-                modifyBtn.isEnabled = false
                 activity!!.api(MODIFY_URL, modifyParams, true, JsonObject).let {
                     withContext(Main) {
                         if (it is JSONObject) {
@@ -61,13 +61,11 @@ class ModifyDialog : BaseSheetDialog() {
                             }
                             dismiss()
                         } else if (it is Error) {
-                            modifyBtn.isEnabled = true
                             Toast.makeText(context!!, it.message, LENGTH_SHORT).show()
                         }
                     }
                 }
             } else {
-                modifyBtn.isEnabled = true
                 Toast.makeText(context!!, R.string.valueIncorrect, LENGTH_SHORT).show()
             }
         }

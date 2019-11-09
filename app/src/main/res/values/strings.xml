@@ -33,13 +33,19 @@
     <string name="valueIncorrect">参数填写不正确</string>
     <string name="actionConfirm">确定</string>
     <string name="actionReturn">返回</string>
+    <string name="toastUpdate">加Q群获取最新版？</string>
     <string name="toastLogout">注销登录？</string>
+    <string name="toastFeedback">将调用邮箱进行反馈</string>
     <string name="bindMobileTitle">请输入手机号码</string>
     <string name="bindCodeTitle">请输入验证码</string>
     <string name="bindBtn">绑定</string>
     <string name="bindCodeBtn">获取验证码</string>
+    <string name="bindSuccess">绑定成功</string>
+    <string name="modifySuccess">修改成功</string>
     <string name="modifyOriginTitle">请输入旧密码</string>
     <string name="modifyNewTitle">请输入新密码</string>
     <string name="modifyBtn">绑定</string>
-    <string name="modifySuccess">修改成功</string>
+    <string name="invokeQQFailed">未安装手Q或安装的版本不支持</string>
+    <string name="invokeMailFailed">未安装邮箱软件</string>
+    <string name="aboutContent">本软件为免费软件，由个人独立开发完成。\n此软件仅供学习交流，勿于商业用途。\n在软件中难免存在一些未修复的漏洞，我深感歉意。\n希望你能尽快联系我修复问题。</string>
 </resources>

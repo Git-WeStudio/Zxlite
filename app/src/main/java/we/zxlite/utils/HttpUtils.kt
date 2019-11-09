@@ -52,7 +52,7 @@ object HttpUtils {
      * @param add 增加验证
      * @param type 返回数据类型
      */
-    suspend fun Activity.api(url: String, params: String, add: Boolean, type: Type?): Any {
+    suspend fun Activity.api(url: String, params: String?, add: Boolean, type: Type?): Any {
         if (isExpired) {
             updateConfig()
             if (!login()) {
@@ -77,17 +77,20 @@ object HttpUtils {
      * @param add 增加验证
      * @param type 返回数据类型
      */
-    suspend fun connApi(url: String, params: String, add: Boolean, type: Type?) =
+    suspend fun connApi(url: String, params: String?, add: Boolean, type: Type?) =
         GlobalScope.async {
-            val urlConn = ("$url${if (add) tokenParams else EMPTY_STR}").conn()
+            val checkParams = if (params ==null) tokenParams.replace("?","&") else tokenParams
+            val urlConn = ("$url${if (add) checkParams else EMPTY_STR}").conn()
             try {
                 val authCode = "0001"
                 val authGuid = randomUUID().toString()
                 val authTime = currentTimeMillis().toString()
                 val authToken = (authGuid + authTime + AUTH_KEY).md5
                 urlConn.apply {
-                    requestMethod = "POST"
-                    doOutput = true
+                    if (params != null) {
+                        requestMethod = "POST"
+                        doOutput = true
+                    }
                     readTimeout = 10 * 1000
                     connectTimeout = 10 * 1000
                     setRequestProperty(AUTH_CODE, authCode)
@@ -95,10 +98,12 @@ object HttpUtils {
                     setRequestProperty(AUTH_TIME, authTime)
                     setRequestProperty(AUTH_TOKEN, authToken)
                 }.run {
-                    val stream = DataOutputStream(outputStream)
-                    stream.writeBytes(params)
-                    stream.flush()
-                    stream.close()
+                    if (params != null) {
+                        val stream = DataOutputStream(outputStream)
+                        stream.writeBytes(params)
+                        stream.flush()
+                        stream.close()
+                    }
                     val resultData = inputStream.reader().readText()
                     return@async when (type) {
                         JsonObject -> resultData.jsonObject
@@ -135,6 +140,7 @@ object HttpUtils {
 
     /** 返回错误信息 */
     class Error(private val error: Exception) {
+
         val message: String
             get() = when (error) {
                 is UnknownHostException -> "网络连接错误"
