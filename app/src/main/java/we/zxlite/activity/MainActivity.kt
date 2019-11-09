@@ -28,6 +28,7 @@ import we.zxlite.utils.UserUtils.cfg
 import we.zxlite.utils.UserUtils.cleanConfig
 import android.content.Intent
 import android.net.Uri
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -42,7 +43,8 @@ import we.zxlite.utils.HttpUtils.Error
 import we.zxlite.utils.HttpUtils.Type.JsonObject
 import we.zxlite.utils.HttpUtils.api
 
-class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
+    SwipeRefreshLayout.OnRefreshListener {
 
     companion object {
         //考试报告
@@ -67,10 +69,10 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     //报告类型
     private val reportType get() = if (mainNav.checkedItem!!.itemId == R.id.menuReportExam) EXAM else HOMEWORK
-    //报告页码
-    private val reportIndex = 1
     //报告列表
     private val reportList = ArrayList<ReportListBean>()
+    //报告页码
+    private val reportIndex get() =  reportList.size / 10 + 1
     //报告参数
     private val reportParams get() = "reportType=$reportType&pageIndex=$reportIndex&pageSize=10&actualPosition=0"
 
@@ -95,6 +97,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 .let { mainNav.setCheckedItem(if (it == EXAM_TYPE) R.id.menuReportExam else R.id.menuReportHomework) }
         }
         mainNav.setNavigationItemSelectedListener(this)
+        mainRefresh.setOnRefreshListener(this)
+        mainFab.setOnClickListener { if (!mainRefresh.isRefreshing) loadReport() }
         mainRecycler.adapter = ExamListAdapter(reportList)
         mainRecycler.addItemDecoration(ItemDecoration())
         loadReport()
@@ -116,6 +120,10 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         return true
     }
 
+    override fun onRefresh() {
+        if (reportList.size == 0) loadReport() else mainRefresh.isRefreshing = false
+    }
+
     /** 改变报告类型
      * @param type 报告类型
      * @param item 菜单项
@@ -124,6 +132,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         db.use { replace(TABLE_CFG, ITEM_NAME to REPORT_TYPE, ITEM_VALUE to type) }
         mainNav.setCheckedItem(item)
         mainDrawer.closeDrawers()
+        mainRecycler.adapter!!.notifyItemRangeRemoved(0, reportList.size)
+        reportList.clear()
+        loadReport()
     }
 
     /** 加载报告 */
@@ -132,6 +143,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         launch {
             api(LIST_URL, reportParams, true, JsonObject).let {
                 if (it is JSONObject) {
+                    val listOldSize = reportList.size
                     val examInfoList = it.optJSONArray(EXAM_INFO_LIST)
                     for (i in 0 until examInfoList!!.length()) {
                         val item = examInfoList.optJSONObject(i)
@@ -144,8 +156,12 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                         )
                     }
                     withContext(Main) {
+                        if (reportList.size % 10 == 0) mainFab.show() else mainFab.hide()
                         mainRefresh.isRefreshing = false
-                        mainRecycler.adapter!!.notifyDataSetChanged()
+                        mainRecycler.adapter!!.notifyItemRangeInserted(
+                            listOldSize,
+                            reportList.size - listOldSize
+                        )
                     }
                 } else if (it is Error) withContext(Main) {
                     mainRefresh.isRefreshing = false

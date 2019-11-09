@@ -31,7 +31,7 @@ class ExamListAdapter(private var reportList: ArrayList<ReportListBean>) :
             return when {
                 this < 10 -> "0$this"
                 this in 10..99 -> this.toString()
-                else -> "++"
+                else -> "9+"
             }
         }
 
@@ -58,7 +58,6 @@ class ExamListAdapter(private var reportList: ArrayList<ReportListBean>) :
         holder.itemView.itemNum.text = (position + 1).num
         holder.itemView.itemTitle.text = reportItem.examName
         holder.itemView.itemSubTitle.text = reportItem.examCreateTime.timeFormat
-
     }
 
     override fun getItemCount() = reportList.size
