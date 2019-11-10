@@ -12,6 +12,9 @@
     <string name="menuAbout">关于我们</string>
     <string name="menuLogout">注销登录</string>
     <string name="menuSwitchAccount">切换账号</string>
+    <string name="menuPaper">原卷查看</string>
+    <string name="menuAnalyze">题目解析</string>
+    <string name="menuGuess">好友伴学</string>
     <string name="loginTitle">欢迎登录</string>
     <string name="loginSubTitle">智学，让学习更简单！</string>
     <string name="loginUsername">输入手机号或用户名</string>
@@ -50,7 +53,4 @@
     <string name="aboutContent">本软件为免费软件，由个人独立开发完成。\n此软件仅供学习交流，勿于商业用途。\n在软件中难免存在一些未修复的漏洞，我深感歉意。\n希望你能尽快联系我修复问题。</string>
     <string name="reportTitle">学情报告</string>
     <string name="paperTitle">原卷查看</string>
-    <string name="menuPaper">原卷查看</string>
-    <string name="menuAnalyze">题目解析</string>
-    <string name="menuGuess">好友伴学</string>
 </resources>
