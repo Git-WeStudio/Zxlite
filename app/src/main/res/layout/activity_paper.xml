@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.ReportActivity">
+    tools:context=".activity.PaperActivity">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/reportBarLayout"
+        android:id="@+id/paperBarLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:elevation="0dp"
@@ -16,49 +16,29 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/reportBar"
+            android:id="@+id/paperBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:navigationIcon="@drawable/ic_arrow_back"
-            app:title="@string/reportTitle" />
+            app:title="@string/paperTitle" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/reportPager"
+    <WebView
+        android:id="@+id/paperWeb"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/reportTab"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/reportBarLayout" />
-
-    <we.zxlite.view.ShadowView
-        android:layout_width="0dp"
-        android:layout_height="4dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/reportBarLayout" />
-
-    <we.zxlite.view.ShadowView
-        android:layout_width="0dp"
-        android:layout_height="4dp"
-        app:isTop="false"
-        app:layout_constraintBottom_toTopOf="@id/reportTab"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/reportTab"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:tabIndicatorColor="@color/colorAccent"
-        app:tabIndicatorFullWidth="false"
-        app:tabIndicatorGravity="top"
-        app:tabMode="scrollable"
-        app:tabSelectedTextColor="@color/colorAccent" />
+        app:layout_constraintTop_toBottomOf="@id/paperBarLayout" />
+
+    <we.zxlite.view.ShadowView
+        android:layout_width="0dp"
+        android:layout_height="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/paperBarLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

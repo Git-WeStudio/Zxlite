@@ -78,6 +78,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        loadList()
     }
 
     override fun initView() {
@@ -97,12 +98,11 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         }
         mainNav.setNavigationItemSelectedListener(this)
         mainRefresh.setOnRefreshListener(this)
-        mainFab.setOnClickListener { if (!mainRefresh.isRefreshing) loadReport() }
+        mainFab.setOnClickListener { if (!mainRefresh.isRefreshing) loadList() }
         mainRecycler.addItemDecoration(ItemDecoration())
         mainRecycler.adapter = ExamListAdapter(reportList) {
-            startActivity<ReportActivity>("examId" to it)
+            startActivity<ReportActivity>(EXAM_ID to it)
         }
-        loadReport()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -122,7 +122,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     override fun onRefresh() {
-        if (reportList.size == 0) loadReport() else mainRefresh.isRefreshing = false
+        if (reportList.size == 0) loadList() else mainRefresh.isRefreshing = false
     }
 
     /** 改变报告类型
@@ -135,11 +135,11 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         mainDrawer.closeDrawers()
         mainRecycler.adapter!!.notifyItemRangeRemoved(0, reportList.size)
         reportList.clear()
-        loadReport()
+        loadList()
     }
 
     /** 加载报告 */
-    private fun loadReport() {
+    private fun loadList() {
         mainRefresh.isRefreshing = true
         launch {
             api(LIST_URL, reportParams, true, JsonObject).let {
