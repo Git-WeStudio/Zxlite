@@ -11,7 +11,6 @@ import org.jetbrains.anko.intentFor
 import we.zxlite.R
 import we.zxlite.activity.InitActivity
 import we.zxlite.utils.BaseUtils.db
-import we.zxlite.utils.BaseUtils.transition
 import we.zxlite.utils.SqlUtils.Helper.Companion.ITEM_NAME
 import we.zxlite.utils.SqlUtils.Helper.Companion.ITEM_VALUE
 import we.zxlite.utils.SqlUtils.Helper.Companion.SELECT_USER
@@ -45,7 +44,6 @@ class AccountDialog : BaseAlertDialog() {
                             .addFlags(FLAG_ACTIVITY_CLEAR_TASK)
                             .addFlags(FLAG_ACTIVITY_NEW_TASK)
                     )
-                    transition()
                 }
             }
             .create()

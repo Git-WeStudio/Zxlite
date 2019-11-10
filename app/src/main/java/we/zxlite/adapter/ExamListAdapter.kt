@@ -13,7 +13,14 @@ import java.util.*
 import java.util.Locale.getDefault
 import kotlin.collections.ArrayList
 
-class ExamListAdapter(private var reportList: ArrayList<ReportListBean>) :
+/** 考试列表适配器
+ * @param reportList 数据集合
+ * @param callback 回调数据
+ */
+class ExamListAdapter(
+    private var reportList: ArrayList<ReportListBean>,
+    private val callback: (String) -> Unit
+) :
     RecyclerView.Adapter<ExamListAdapter.ViewHolder>(),
     View.OnClickListener {
 
@@ -63,6 +70,7 @@ class ExamListAdapter(private var reportList: ArrayList<ReportListBean>) :
     override fun getItemCount() = reportList.size
 
     override fun onClick(v: View) {
+        callback(v.tag.toString())
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)

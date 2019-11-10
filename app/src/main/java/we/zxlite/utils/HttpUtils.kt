@@ -15,7 +15,6 @@ import we.zxlite.activity.LoginActivity
 import we.zxlite.utils.BaseUtils.EMPTY_STR
 import we.zxlite.utils.BaseUtils.conn
 import we.zxlite.utils.BaseUtils.md5
-import we.zxlite.utils.BaseUtils.transition
 import we.zxlite.utils.HttpUtils.Type.JsonArray
 import we.zxlite.utils.HttpUtils.Type.JsonObject
 import we.zxlite.utils.UserUtils.cfg
@@ -63,7 +62,6 @@ object HttpUtils {
                             .addFlags(FLAG_ACTIVITY_CLEAR_TASK)
                             .addFlags(FLAG_ACTIVITY_NEW_TASK)
                     )
-                    transition()
                 }
                 return Error(Exception(getString(R.string.loginFailed)))
             }
@@ -79,7 +77,7 @@ object HttpUtils {
      */
     suspend fun connApi(url: String, params: String?, add: Boolean, type: Type?) =
         GlobalScope.async {
-            val checkParams = if (params ==null) tokenParams.replace("?","&") else tokenParams
+            val checkParams = if (params == null) tokenParams.replace("?", "&") else tokenParams
             val urlConn = ("$url${if (add) checkParams else EMPTY_STR}").conn()
             try {
                 val authCode = "0001"

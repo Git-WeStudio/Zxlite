@@ -15,7 +15,6 @@ import org.jetbrains.anko.db.select
 import org.jetbrains.anko.startActivity
 import we.zxlite.R
 import we.zxlite.utils.BaseUtils.EMPTY_STR
-import we.zxlite.utils.BaseUtils.transition
 import we.zxlite.utils.BaseUtils.db
 import we.zxlite.utils.SqlUtils.Helper.Companion.ITEM_NAME
 import we.zxlite.utils.SqlUtils.Helper.Companion.ITEM_VALUE
@@ -78,7 +77,6 @@ class LoginActivity : BaseActivity() {
                 withContext(Main) {
                     startActivity<MainActivity>()
                     finish()
-                    transition()
                 }
             } else withContext(Main) {
                 loginBtn.isEnabled = true

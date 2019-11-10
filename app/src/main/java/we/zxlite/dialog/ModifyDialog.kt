@@ -4,13 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import android.widget.Toast.LENGTH_SHORT
 import kotlinx.android.synthetic.main.dialog_modify.*
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jetbrains.anko.db.replace
+import org.jetbrains.anko.toast
 import org.json.JSONObject
 import we.zxlite.R
 import we.zxlite.utils.HttpUtils.Type.JsonObject
@@ -54,19 +53,19 @@ class ModifyDialog : BaseSheetDialog() {
                 activity!!.api(MODIFY_URL, modifyParams, true, JsonObject).let {
                     withContext(Main) {
                         if (it is JSONObject) {
-                            Toast.makeText(context!!, R.string.modifySuccess, LENGTH_SHORT).show()
+                            context!!.toast(R.string.modifySuccess)
                             cfg.logPwd = newPwd
                             context!!.db.use {
                                 replace(TABLE_RMB, ITEM_NAME to cfg.logName, ITEM_VALUE to newPwd)
                             }
                             dismiss()
-                        } else if (it is Error) {
-                            Toast.makeText(context!!, it.message, LENGTH_SHORT).show()
+                        } else {
+                            context!!.toast((it as Error).message)
                         }
                     }
                 }
             } else {
-                Toast.makeText(context!!, R.string.valueIncorrect, LENGTH_SHORT).show()
+                context!!.toast(R.string.valueIncorrect)
             }
         }
     }

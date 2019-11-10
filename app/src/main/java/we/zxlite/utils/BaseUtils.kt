@@ -1,6 +1,5 @@
 package we.zxlite.utils
 
-import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -16,10 +15,6 @@ import kotlin.experimental.xor
 object BaseUtils {
     /** 空字符串 */
     const val EMPTY_STR = ""
-
-    /** 默认跳转动画 */
-    fun Activity.transition() =
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
 
     /** 获取颜色值 */
     fun Context.color(colorResId: Int) = ContextCompat.getColor(this, colorResId)

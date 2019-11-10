@@ -1,6 +1,6 @@
 package we.zxlite.bean
 
-data class UserBean(
+data class UserConfigBean(
     var logName: String? = null, //保存的用户名
     var logPwd: String? = null, //保存的密码
     var curId: String? = null, //选中id

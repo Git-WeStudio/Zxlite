@@ -99,5 +99,5 @@
         app:backgroundTint="@color/colorAccent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bindCodeBtn" />
+        app:layout_constraintTop_toBottomOf="@+id/bindCode" />
 </androidx.constraintlayout.widget.ConstraintLayout>

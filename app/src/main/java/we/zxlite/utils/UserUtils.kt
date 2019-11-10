@@ -5,7 +5,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import org.jetbrains.anko.db.select
 import org.json.JSONObject
-import we.zxlite.bean.UserBean
+import we.zxlite.bean.UserConfigBean
 import we.zxlite.utils.BaseUtils.EMPTY_STR
 import we.zxlite.utils.BaseUtils.db
 import we.zxlite.utils.BaseUtils.rc4
@@ -19,7 +19,7 @@ import java.lang.System.currentTimeMillis
 
 object UserUtils {
 
-    var cfg = UserBean() //用户配置
+    var cfg = UserConfigBean() //用户配置
 
     //检测过期
     val isExpired get() = (cfg.serviceTime ?: 0) - 3600000L > currentTimeMillis()
@@ -81,6 +81,6 @@ object UserUtils {
 
     /** 清除配置信息 */
     fun cleanConfig() {
-        cfg = UserBean()
+        cfg = UserConfigBean()
     }
 }

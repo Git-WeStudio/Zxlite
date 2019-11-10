@@ -7,7 +7,6 @@ import kotlinx.coroutines.withContext
 import org.jetbrains.anko.startActivity
 import we.zxlite.R
 import we.zxlite.utils.UserUtils.login
-import we.zxlite.utils.BaseUtils.transition
 import we.zxlite.utils.UserUtils.updateConfig
 
 class InitActivity : BaseActivity() {
@@ -27,7 +26,6 @@ class InitActivity : BaseActivity() {
         withContext(Main) {
             if (login()) startActivity<MainActivity>() else startActivity<LoginActivity>()
             finish()
-            transition()
         }
     }
 }

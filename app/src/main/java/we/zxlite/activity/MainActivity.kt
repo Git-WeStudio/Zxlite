@@ -18,7 +18,6 @@ import we.zxlite.dialog.BindDialog
 import we.zxlite.dialog.ModifyDialog
 import we.zxlite.utils.BaseUtils.EMPTY_STR
 import we.zxlite.utils.BaseUtils.db
-import we.zxlite.utils.BaseUtils.transition
 import we.zxlite.utils.SqlUtils.Helper.Companion.ITEM_NAME
 import we.zxlite.utils.SqlUtils.Helper.Companion.ITEM_VALUE
 import we.zxlite.utils.SqlUtils.Helper.Companion.REPORT_TYPE
@@ -72,7 +71,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     //报告列表
     private val reportList = ArrayList<ReportListBean>()
     //报告页码
-    private val reportIndex get() =  reportList.size / 10 + 1
+    private val reportIndex get() = reportList.size / 10 + 1
     //报告参数
     private val reportParams get() = "reportType=$reportType&pageIndex=$reportIndex&pageSize=10&actualPosition=0"
 
@@ -99,8 +98,10 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         mainNav.setNavigationItemSelectedListener(this)
         mainRefresh.setOnRefreshListener(this)
         mainFab.setOnClickListener { if (!mainRefresh.isRefreshing) loadReport() }
-        mainRecycler.adapter = ExamListAdapter(reportList)
         mainRecycler.addItemDecoration(ItemDecoration())
+        mainRecycler.adapter = ExamListAdapter(reportList) {
+            startActivity<ReportActivity>("examId" to it)
+        }
         loadReport()
     }
 
@@ -213,7 +214,6 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 }
                 startActivity<LoginActivity>()
                 finish()
-                transition()
             }
             .show()
     }

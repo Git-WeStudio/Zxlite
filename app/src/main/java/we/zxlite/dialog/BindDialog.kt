@@ -4,12 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import android.widget.Toast.LENGTH_SHORT
 import kotlinx.android.synthetic.main.dialog_bind.*
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.jetbrains.anko.toast
 import org.json.JSONObject
 import we.zxlite.R
 import we.zxlite.utils.HttpUtils.Type.JsonObject
@@ -50,14 +49,14 @@ class BindDialog : BaseSheetDialog() {
                 activity!!.api(SMS_URL + smsParams, null, true, JsonObject).let {
                     withContext(Main) {
                         if (it is JSONObject) {
-                            Toast.makeText(context!!, R.string.smsSuccess, LENGTH_SHORT).show()
-                        } else if (it is Error) {
-                            Toast.makeText(context!!, it.message, LENGTH_SHORT).show()
+                            context!!.toast(R.string.smsSuccess)
+                        } else {
+                            context!!.toast((it as Error).message)
                         }
                     }
                 }
             } else {
-                Toast.makeText(context!!, R.string.valueIncorrect, LENGTH_SHORT).show()
+                context!!.toast(R.string.valueIncorrect)
             }
         }
         bindBtn.setOnClickListener {
@@ -67,15 +66,15 @@ class BindDialog : BaseSheetDialog() {
                 activity!!.api(BIND_URL + bindParams, null, true, JsonObject).let {
                     withContext(Main) {
                         if (it is JSONObject) {
-                            Toast.makeText(context!!, R.string.bindSuccess, LENGTH_SHORT).show()
+                            context!!.toast(R.string.bindSuccess)
                             dismiss()
-                        } else if (it is Error) {
-                            Toast.makeText(context!!, it.message, LENGTH_SHORT).show()
+                        } else {
+                            context!!.toast((it as Error).message)
                         }
                     }
                 }
             } else {
-                Toast.makeText(context!!, R.string.valueIncorrect, LENGTH_SHORT).show()
+                context!!.toast(R.string.valueIncorrect)
             }
         }
     }
