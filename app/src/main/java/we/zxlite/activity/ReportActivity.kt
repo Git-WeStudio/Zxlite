@@ -1,12 +1,15 @@
 package we.zxlite.activity
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import com.github.mikephil.charting.data.Entry
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.activity_report.*
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import org.json.JSONObject
 import we.zxlite.R
@@ -89,6 +92,20 @@ class ReportActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_report)
         loadReport()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_report, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val selected = reportPageList[reportPager.currentItem].paperId
+        when (item.itemId) {
+            R.id.menuPaper -> startActivity<PaperActivity>(PAPER_ID to selected)
+            else -> Unit
+        }
+        return true
     }
 
     override fun initView() {
