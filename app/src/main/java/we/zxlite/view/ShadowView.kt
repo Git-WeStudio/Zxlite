@@ -13,18 +13,24 @@ import we.zxlite.utils.BaseUtils.color
 
 /** 阴影控件 */
 class ShadowView(ctx: Context, attrs: AttributeSet) : View(ctx, attrs) {
+
+    private var isTop = true
+
     init {
-        if (SDK_INT >= JELLY_BEAN) {
-            val typedArray = ctx.obtainStyledAttributes(attrs, R.styleable.ShadowView)
-            val isTop = typedArray.getBoolean(R.styleable.ShadowView_isTop, true)
-            this.background = GradientDrawable().apply {
-                colors = intArrayOf(
-                    ctx.color(R.color.colorShadow),
-                    ctx.color(android.R.color.transparent)
-                )
-                orientation = if (isTop) TOP_BOTTOM else BOTTOM_TOP
-            }
-            typedArray.recycle()
+        val typedArray = ctx.obtainStyledAttributes(attrs, R.styleable.ShadowView)
+        isTop = typedArray.getBoolean(R.styleable.ShadowView_isTop, true)
+        typedArray.recycle()
+        setShadow()
+    }
+
+    /** 设置阴影 */
+    private fun setShadow() {
+        if (SDK_INT >= JELLY_BEAN) background = GradientDrawable().apply {
+            colors = intArrayOf(
+                context.color(R.color.colorShadow),
+                context.color(android.R.color.transparent)
+            )
+            orientation = if (isTop) TOP_BOTTOM else BOTTOM_TOP
         }
     }
 }
