@@ -15,12 +15,15 @@ class PaperActivity : BaseActivity() {
         private const val PAPER_ID = "paperId"
     }
 
+    //原卷URL
+    private val paperUrl get() = "$PAPER_URL?token=${cfg.serviceToken}&paperId=$paperId"
+    //原卷id
     private val paperId get() = intent.getStringExtra(PAPER_ID)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_paper)
-        paperWeb.loadUrl("$PAPER_URL?token=${cfg.token}&paperId=$paperId")
+        paperWeb.loadUrl(paperUrl)
     }
 
     @SuppressLint("SetJavaScriptEnabled")

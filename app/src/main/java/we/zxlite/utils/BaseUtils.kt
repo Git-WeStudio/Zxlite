@@ -15,13 +15,6 @@ import kotlin.experimental.xor
 object BaseUtils {
     /** 空字符串 */
     const val EMPTY_STR = ""
-
-    /** 获取颜色值 */
-    fun Context.color(colorResId: Int) = ContextCompat.getColor(this, colorResId)
-
-    /** 转为HttpURLConnection */
-    fun String.conn() = URL(this).openConnection() as HttpURLConnection
-
     /** 获取数据库资源 */
     val Context.db: Helper get() = Helper.getInstance(this)
     /** 转为RC4 */
@@ -77,4 +70,10 @@ object BaseUtils {
             }
             return builder.toString()
         }
+
+    /** 获取颜色值 */
+    fun Context.color(colorResId: Int) = ContextCompat.getColor(this, colorResId)
+
+    /** 转为HttpURLConnection */
+    fun String.conn() = URL(this).openConnection() as HttpURLConnection
 }

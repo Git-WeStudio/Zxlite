@@ -18,7 +18,6 @@ import we.zxlite.utils.BaseUtils.md5
 import we.zxlite.utils.HttpUtils.Type.JsonArray
 import we.zxlite.utils.HttpUtils.Type.JsonObject
 import we.zxlite.utils.UserUtils.cfg
-import we.zxlite.utils.UserUtils.cleanConfig
 import we.zxlite.utils.UserUtils.isExpired
 import we.zxlite.utils.UserUtils.login
 import we.zxlite.utils.UserUtils.updateConfig
@@ -29,7 +28,7 @@ import java.net.UnknownHostException
 import java.util.UUID.randomUUID
 
 object HttpUtils {
-    private const val AUTH_KEY = "iflytek!@#123student" //验证码
+    private const val AUTH_KEY = "iflytek!@#123student" //验证密钥
     private const val AUTH_CODE = "authbizcode"
     private const val AUTH_GUID = "authguid"
     private const val AUTH_TIME = "authtimestamp"
@@ -38,12 +37,10 @@ object HttpUtils {
     private const val ERROR_INFO = "errorInfo"
     private const val ERROR_RESULT = "result"
     //验证参数
-    private val tokenParams get() = "?token=${cfg.token}&childrenId=${cfg.curId}"
+    private val tokenParams get() = "?token=${cfg.serviceToken}&childrenId=${cfg.curId}"
 
     /** 回调数据类型 */
-    enum class Type {
-        JsonObject, JsonArray
-    }
+    enum class Type { JsonObject, JsonArray }
 
     /** 验证接口访问
      * @param url 接口地址
@@ -55,7 +52,7 @@ object HttpUtils {
         if (isExpired) {
             updateConfig()
             if (!login()) {
-                cleanConfig() //清除保存的配置
+                cfg.clean()
                 withContext(Main) {
                     startActivity(
                         intentFor<LoginActivity>()
@@ -84,7 +81,7 @@ object HttpUtils {
                 val authGuid = randomUUID().toString()
                 val authTime = currentTimeMillis().toString()
                 val authToken = (authGuid + authTime + AUTH_KEY).md5
-                urlConn.apply {
+                val resultConn = urlConn.apply {
                     if (params != null) {
                         requestMethod = "POST"
                         doOutput = true
@@ -95,19 +92,17 @@ object HttpUtils {
                     setRequestProperty(AUTH_GUID, authGuid)
                     setRequestProperty(AUTH_TIME, authTime)
                     setRequestProperty(AUTH_TOKEN, authToken)
-                }.run {
-                    if (params != null) {
-                        val stream = DataOutputStream(outputStream)
-                        stream.writeBytes(params)
-                        stream.flush()
-                        stream.close()
-                    }
-                    val resultData = inputStream.reader().readText()
-                    return@async when (type) {
-                        JsonObject -> resultData.jsonObject
-                        JsonArray -> resultData.jsonArray
-                        else -> resultData
-                    }
+                }
+                if (params != null) DataOutputStream(resultConn.outputStream).let {
+                    it.writeBytes(params)
+                    it.flush()
+                    it.close()
+                }
+                val resultData = resultConn.inputStream.reader().readText()
+                return@async when (type) {
+                    JsonObject -> resultData.jsonObject
+                    JsonArray -> resultData.jsonArray
+                    else -> resultData
                 }
             } catch (e: Exception) {
                 return@async Error(e)
@@ -138,7 +133,6 @@ object HttpUtils {
 
     /** 返回错误信息 */
     class Error(private val error: Exception) {
-
         val message: String
             get() = when (error) {
                 is UnknownHostException -> "网络连接错误"

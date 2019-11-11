@@ -1,7 +1,7 @@
 package we.zxlite.adapter
 
 import android.graphics.Rect
-import android.view.LayoutInflater
+import android.view.LayoutInflater.from
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -20,9 +20,7 @@ import kotlin.collections.ArrayList
 class ExamListAdapter(
     private var reportList: ArrayList<ReportListBean>,
     private val callback: (String) -> Unit
-) :
-    RecyclerView.Adapter<ExamListAdapter.ViewHolder>(),
-    View.OnClickListener {
+) : RecyclerView.Adapter<ExamListAdapter.ViewHolder>(), View.OnClickListener {
 
     companion object {
         private const val minute = 60 * 1000L//分
@@ -34,12 +32,10 @@ class ExamListAdapter(
 
     /** 获取Num */
     private val Int.num: String
-        get() {
-            return when {
-                this < 10 -> "0$this"
-                this in 10..99 -> this.toString()
-                else -> "9+"
-            }
+        get() = when {
+            this < 10 -> "0$this"
+            this in 10..99 -> this.toString()
+            else -> "9+"
         }
 
     private val Long.timeFormat: String
@@ -56,15 +52,17 @@ class ExamListAdapter(
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_report, parent, false))
+        ViewHolder(from(parent.context).inflate(R.layout.item_report, parent, false))
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val reportItem = reportList[position]
-        holder.itemView.setOnClickListener(this)
-        holder.itemView.tag = reportItem.examId
-        holder.itemView.itemNum.text = (position + 1).num
-        holder.itemView.itemTitle.text = reportItem.examName
-        holder.itemView.itemSubTitle.text = reportItem.examCreateTime.timeFormat
+        holder.itemView.run {
+            tag = reportItem.examId
+            itemNum.text = (position + 1).num
+            itemTitle.text = reportItem.examName
+            itemSubTitle.text = reportItem.examCreateTime.timeFormat
+            setOnClickListener(this@ExamListAdapter)
+        }
     }
 
     override fun getItemCount() = reportList.size

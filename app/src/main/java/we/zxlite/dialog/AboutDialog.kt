@@ -12,8 +12,5 @@ class AboutDialog : BaseSheetDialog() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        return inflater.inflate(R.layout.dialog_about, container)
-    }
-
+    ): View = inflater.inflate(R.layout.dialog_about, container)
 }

@@ -17,15 +17,12 @@ class InitActivity : BaseActivity() {
     }
 
     override fun initView() {
-        init()
-    }
-
-    /** 初始化 */
-    private fun init() = launch {
-        updateConfig()
-        withContext(Main) {
-            if (login()) startActivity<MainActivity>() else startActivity<LoginActivity>()
-            finish()
+        launch {
+            updateConfig()
+            withContext(Main) {
+                if (login()) startActivity<MainActivity>() else startActivity<LoginActivity>()
+                finish()
+            }
         }
     }
 }

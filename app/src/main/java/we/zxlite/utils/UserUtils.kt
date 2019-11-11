@@ -15,17 +15,19 @@ import we.zxlite.utils.SqlUtils.Helper.Companion.ITEM_NAME
 import we.zxlite.utils.SqlUtils.Helper.Companion.ITEM_VALUE
 import we.zxlite.utils.SqlUtils.Helper.Companion.SELECT_USER
 import we.zxlite.utils.SqlUtils.Helper.Companion.TABLE_CFG
+import we.zxlite.utils.SqlUtils.Helper.Companion.TABLE_RMB
 import java.lang.System.currentTimeMillis
 
 object UserUtils {
 
-    var cfg = UserConfigBean() //用户配置
-
-    //检测过期
+    //用户配置
+    var cfg = UserConfigBean()
+    //检测登录是否过期
     val isExpired get() = (cfg.serviceTime ?: 0) + 3600000L < currentTimeMillis()
 
-    private const val LOG_URL = "https://www.zhixue.com/container/app/login" //登录账号
-    private const val INFO_URL = "https://www.zhixue.com/zhixuebao/base/common/getUserInfo" //用户信息
+    private const val LOG_URL = "https://www.zhixue.com/container/app/login" //登录账号URL
+    private const val INFO_URL =
+        "https://www.zhixue.com/zhixuebao/base/common/getUserInfo" //用户信息URL
 
     private const val USER_INFO = "userInfo" //用户信息
     private const val SERVER_INFO = "serverInfo" //服务信息
@@ -52,7 +54,7 @@ object UserUtils {
                 cfg.loginName = optJSONObject(USER_INFO)!!.optString(LOGIN_NAME)
                 cfg.curName = optJSONObject(USER_INFO)!!.optString(NAME)
                 cfg.serviceTime = optJSONObject(SERVER_INFO)!!.optLong(CUR_SERVER_TIME)
-                cfg.token = optString(TOKEN)
+                cfg.serviceToken = optString(TOKEN)
                 connApi(INFO_URL, EMPTY_STR, true, JsonObject).run {
                     if (this is JSONObject) cfg.curId = optString(CUR_CHILD_ID)
                 }
@@ -62,25 +64,16 @@ object UserUtils {
     }.await()
 
     /** 更新信息 */
-    fun Context.updateConfig() {
-        db.use {
-            select(TABLE_CFG, ITEM_VALUE)
-                .whereSimple("$ITEM_NAME = '$SELECT_USER'")
-                .exec { if (moveToFirst()) getString(0) else null }
-                ?.let { userName ->
-                    select(SqlUtils.Helper.TABLE_RMB, ITEM_VALUE)
-                        .whereSimple("$ITEM_NAME = '$userName'")
-                        .exec { if (moveToFirst()) getString(0) else null }
-                        ?.let { userPwd ->
-                            cfg.logName = userName
-                            cfg.logPwd = userPwd
-                        }
-                }
-        }
-    }
-
-    /** 清除配置信息 */
-    fun cleanConfig() {
-        cfg = UserConfigBean()
+    fun Context.updateConfig() = db.use {
+        select(TABLE_CFG, ITEM_VALUE).whereSimple("$ITEM_NAME = '$SELECT_USER'")
+            .exec { if (moveToFirst()) getString(0) else null }
+            ?.let { userName ->
+                select(TABLE_RMB, ITEM_VALUE).whereSimple("$ITEM_NAME = '$userName'")
+                    .exec { if (moveToFirst()) getString(0) else null }
+                    ?.let { userPwd ->
+                        cfg.logName = userName
+                        cfg.logPwd = userPwd
+                    }
+            }
     }
 }

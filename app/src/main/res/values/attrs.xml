@@ -3,7 +3,4 @@
     <declare-styleable name="ShadowView">
         <attr name="isTop" format="boolean" />
     </declare-styleable>
-    <declare-styleable name="ProgressBar">
-        <attr name="progress" format="integer" />
-    </declare-styleable>
 </resources>

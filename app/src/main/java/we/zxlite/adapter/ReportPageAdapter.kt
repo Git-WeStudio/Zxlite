@@ -1,12 +1,10 @@
 package we.zxlite.adapter
 
-import android.view.LayoutInflater
+import android.view.LayoutInflater.from
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_report.view.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import we.zxlite.R
 import we.zxlite.bean.ReportPageBean
 import we.zxlite.view.ScoreChart
@@ -15,8 +13,7 @@ import java.text.DecimalFormat
 class ReportPageAdapter(
     private val pageList: ArrayList<ReportPageBean>,
     private val callback: (ScoreChart, String) -> Unit
-) :
-    RecyclerView.Adapter<ReportPageAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<ReportPageAdapter.ViewHolder>() {
 
     //等级评估
     private val Int.examLevel
@@ -46,13 +43,7 @@ class ReportPageAdapter(
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ViewHolder(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.fragment_report,
-                parent,
-                false
-            )
-        )
+        ViewHolder(from(parent.context).inflate(R.layout.fragment_report, parent, false))
 
     override fun getItemCount() = pageList.size
 

@@ -23,12 +23,10 @@ class AccountDialog : BaseAlertDialog() {
         val users = ArrayList<String>()
         context!!.db.use {
             select(TABLE_RMB, ITEM_NAME).exec {
-                if (moveToFirst()) {
-                    while (true) {
-                        users.add(getString(0))
-                        if (isLast) break
-                        moveToNext()
-                    }
+                if (moveToFirst()) while (true) {
+                    users.add(getString(0))
+                    if (isLast) break
+                    moveToNext()
                 }
             }
         }
@@ -38,13 +36,11 @@ class AccountDialog : BaseAlertDialog() {
                 context!!.db.use {
                     replace(TABLE_CFG, ITEM_NAME to SELECT_USER, ITEM_VALUE to users[i])
                 }
-                activity!!.run {
-                    startActivity(
-                        intentFor<InitActivity>()
-                            .addFlags(FLAG_ACTIVITY_CLEAR_TASK)
-                            .addFlags(FLAG_ACTIVITY_NEW_TASK)
-                    )
-                }
+                activity!!.startActivity(
+                    activity!!.intentFor<InitActivity>()
+                        .addFlags(FLAG_ACTIVITY_CLEAR_TASK)
+                        .addFlags(FLAG_ACTIVITY_NEW_TASK)
+                )
             }
             .create()
     }

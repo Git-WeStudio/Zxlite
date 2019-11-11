@@ -5,6 +5,7 @@ import android.view.Menu
 import android.view.MenuItem
 import com.github.mikephil.charting.data.Entry
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.android.material.tabs.TabLayoutMediator.TabConfigurationStrategy
 import kotlinx.android.synthetic.main.activity_report.*
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
@@ -139,10 +140,9 @@ class ReportActivity : BaseActivity() {
                 }
             }
         }
-        TabLayoutMediator(reportTab, reportPager,
-            TabLayoutMediator.TabConfigurationStrategy { tab, position ->
-                tab.text = reportPageList[position].title
-            }).attach()
+        TabLayoutMediator(reportTab, reportPager, TabConfigurationStrategy { tab, position ->
+            tab.text = reportPageList[position].title
+        }).attach()
     }
 
     /** 加载报告 */

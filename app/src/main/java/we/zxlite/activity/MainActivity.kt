@@ -24,7 +24,6 @@ import we.zxlite.utils.SqlUtils.Helper.Companion.REPORT_TYPE
 import we.zxlite.utils.SqlUtils.Helper.Companion.SELECT_USER
 import we.zxlite.utils.SqlUtils.Helper.Companion.TABLE_CFG
 import we.zxlite.utils.UserUtils.cfg
-import we.zxlite.utils.UserUtils.cleanConfig
 import android.content.Intent
 import android.net.Uri
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -198,7 +197,6 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 } catch (e: Exception) {
                     Snackbar.make(mainDrawer, R.string.invokeQQFailed, LENGTH_SHORT).show()
                 }
-
             }
             .show()
     }
@@ -208,7 +206,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         Snackbar
             .make(mainDrawer, R.string.toastLogout, LENGTH_LONG)
             .setAction(R.string.actionConfirm) {
-                cleanConfig() //清空当前信息
+                cfg.clean()//清空当前信息
                 db.use {
                     delete(TABLE_CFG, "$ITEM_NAME = {$SELECT_USER}", SELECT_USER to SELECT_USER)
                 }

@@ -41,9 +41,10 @@ class RegisterActivity : BaseActivity() {
     private val regParams get() = "passwd=$regPwd&role=parent&smsCode=$regSms&sid=$sid"
 
     companion object {
-        private const val REG_URL = "https://www.zhixue.com/container/app/reg/register"//注册账号
-        private const val IMG_URL = "https://www.zhixue.com/container/app/reg/getImageCode"//获取图像验证码
-        private const val SMS_URL = "https://www.zhixue.com/container/app/reg/getSmsCode"//获取手机验证码
+        private const val REG_URL = "https://www.zhixue.com/container/app/reg/register" //注册账号
+        private const val IMG_URL =
+            "https://www.zhixue.com/container/app/reg/getImageCode" //获取图像验证码
+        private const val SMS_URL = "https://www.zhixue.com/container/app/reg/getSmsCode" //获取手机验证码
 
         private const val IMG = "image"
         private const val SID = "sid"
@@ -63,14 +64,18 @@ class RegisterActivity : BaseActivity() {
 
     /**获取图形验证码*/
     private fun loadCode() = launch {
-        connApi(IMG_URL, EMPTY_STR, false, JsonObject).run {
-            if (this is JSONObject) {
-                sid = optString(SID)
-                img = optString(IMG)
-                GlideApp.with(this@RegisterActivity).load(img.bitmap)
-                    .transform(CenterCrop(), RoundedCorners(8)).into(regImg)
+        connApi(IMG_URL, EMPTY_STR, false, JsonObject).let {
+            if (it is JSONObject) {
+                sid = it.optString(SID)
+                img = it.optString(IMG)
+                GlideApp
+                    .with(this@RegisterActivity)
+                    .load(img.bitmap)
+                    .transform(CenterCrop(), RoundedCorners(8))
+                    .into(regImg)
             } else {
-                GlideApp.with(this@RegisterActivity)
+                GlideApp
+                    .with(this@RegisterActivity)
                     .load(ColorDrawable(color(R.color.colorSubTitle)))
                     .transform(CenterCrop(), RoundedCorners(8))
                     .into(regImg)

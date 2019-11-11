@@ -17,8 +17,8 @@ object SqlUtils {
         companion object {
             const val TABLE_RMB = "TABLE_RMB" //记住密码
             const val TABLE_CFG = "TABLE_CFG" //用户配置
-            const val ITEM_NAME = "ITEM_NAME"
-            const val ITEM_VALUE = "ITEM_VALUE"
+            const val ITEM_NAME = "ITEM_NAME" //项名
+            const val ITEM_VALUE = "ITEM_VALUE" //项值
             const val SELECT_USER = "SELECT_USER" //选中用户
             const val REPORT_TYPE = "REPORT_TYPE" //报告类型
 

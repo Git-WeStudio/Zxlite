@@ -25,8 +25,8 @@ import we.zxlite.utils.SqlUtils.Helper.Companion.TABLE_RMB
 class ModifyDialog : BaseSheetDialog() {
 
     companion object {
-        //修改密码
-        private const val MODIFY_URL = "https://www.zhixue.com/container/app/modifyOriginPWD"
+        private const val MODIFY_URL =
+            "https://www.zhixue.com/container/app/modifyOriginPWD" //修改密码URL
     }
 
     //新密码
@@ -40,9 +40,7 @@ class ModifyDialog : BaseSheetDialog() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        return inflater.inflate(R.layout.dialog_modify, container)
-    }
+    ): View = inflater.inflate(R.layout.dialog_modify, container)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -59,14 +57,10 @@ class ModifyDialog : BaseSheetDialog() {
                                 replace(TABLE_RMB, ITEM_NAME to cfg.logName, ITEM_VALUE to newPwd)
                             }
                             dismiss()
-                        } else {
-                            context!!.toast((it as Error).message)
-                        }
+                        } else context!!.toast((it as Error).message)
                     }
                 }
-            } else {
-                context!!.toast(R.string.valueIncorrect)
-            }
+            } else context!!.toast(R.string.valueIncorrect)
         }
     }
 }

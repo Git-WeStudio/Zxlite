@@ -26,9 +26,8 @@ import we.zxlite.utils.UserUtils.login
 class LoginActivity : BaseActivity() {
 
     companion object {
-        //忘记密码
         private const val FORGET_URL =
-            "http://pass.changyan.com/forget?customConfig=e3ZpZXdfdHlwZTogIkg1IixoaWRkZW5fbW9kdWxlOiAiZm9yZ2V0QWNjb3VudCIsbG9nbzoiemhpeHVlIix0aGVtZToiZ3JlZW4iLGNhbGxiYWNrX3R5cGU6InBvc3RNZXNzYWdlIixsb2dpbl90eXBlOiJtYW51YWwifQ=="
+            "http://pass.changyan.com/forget?customConfig=e3ZpZXdfdHlwZTogIkg1IixoaWRkZW5fbW9kdWxlOiAiZm9yZ2V0QWNjb3VudCIsbG9nbzoiemhpeHVlIix0aGVtZToiZ3JlZW4iLGNhbGxiYWNrX3R5cGU6InBvc3RNZXNzYWdlIixsb2dpbl90eXBlOiJtYW51YWwifQ==" //忘记密码
     }
 
     private val logUserName //获取编辑框账号参数
