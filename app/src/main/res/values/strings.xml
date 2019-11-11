@@ -36,9 +36,9 @@
     <string name="valueIncorrect">参数填写不正确</string>
     <string name="actionConfirm">确定</string>
     <string name="actionReturn">返回</string>
-    <string name="toastUpdate">加Q群获取最新版？</string>
+    <string name="toastUpdate">加Q群获取最新版</string>
     <string name="toastLogout">注销登录？</string>
-    <string name="toastFeedback">将调用邮箱进行反馈</string>
+    <string name="toastFeedback">通过邮箱反馈</string>
     <string name="bindMobileTitle">请输入手机号码</string>
     <string name="bindCodeTitle">请输入验证码</string>
     <string name="bindBtn">绑定</string>

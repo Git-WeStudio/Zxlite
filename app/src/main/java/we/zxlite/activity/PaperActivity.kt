@@ -32,10 +32,10 @@ class PaperActivity : BaseActivity() {
         paperBar.setNavigationOnClickListener { onBackPressed() }
         paperWeb.settings.apply {
             setSupportZoom(true)
+            javaScriptEnabled = true
             builtInZoomControls = true
             displayZoomControls = false
             loadWithOverviewMode = true
-            javaScriptEnabled = true
             useWideViewPort = true
         }
     }

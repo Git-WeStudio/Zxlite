@@ -63,6 +63,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         private const val HOMEWORK = "homework"
         //页面列表
         private const val LIST_URL = "https://www.zhixue.com/zhixuebao/report/getPageExamList"
+
+        private const val QQ_GROUP =
+            "mqqopensdkapi://bizAgent/qm/qr?url=http%3A%2F%2Fqm.qq.com%2Fcgi-bin%2Fqm%2Fqr%3Ffrom%3Dapp%26p%3Dandroid%26k%3D668tQMrX050v9ChooYRBaRA137b5YbOb"
     }
 
     //报告类型
@@ -189,11 +192,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             .make(mainDrawer, R.string.toastUpdate, LENGTH_LONG)
             .setAction(R.string.actionConfirm) {
                 try {
-                    startActivity(
-                        Intent().apply {
-                            data =
-                                Uri.parse("mqqopensdkapi://bizAgent/qm/qr?url=http://qm.qq.com/cgi-bin/qm/qr?from=app&p=android&k=V8t37i1Yeow7zm-RPuBenpn2TGeTynCS")
-                        })
+                    startActivity(Intent().apply { data = Uri.parse(QQ_GROUP) })
                 } catch (e: Exception) {
                     Snackbar.make(mainDrawer, R.string.invokeQQFailed, LENGTH_SHORT).show()
                 }

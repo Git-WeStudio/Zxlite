@@ -19,6 +19,6 @@ class ShadowView(ctx: Context, attrs: AttributeSet) : View(ctx, attrs) {
         if (isTop)
             setBackgroundResource(R.drawable.shadow_top)
         else
-            setBackgroundResource(R.drawable.shadow_top)
+            setBackgroundResource(R.drawable.shadow_bottom)
     }
 }

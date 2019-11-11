@@ -35,14 +35,14 @@
 
     <we.zxlite.view.ShadowView
         android:layout_width="0dp"
-        android:layout_height="4dp"
+        android:layout_height="3dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/reportBarLayout" />
 
     <we.zxlite.view.ShadowView
         android:layout_width="0dp"
-        android:layout_height="4dp"
+        android:layout_height="3dp"
         app:isTop="false"
         app:layout_constraintBottom_toTopOf="@id/reportTab"
         app:layout_constraintEnd_toEndOf="parent"

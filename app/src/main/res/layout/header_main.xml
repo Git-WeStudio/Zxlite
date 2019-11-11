@@ -23,7 +23,7 @@
     <we.zxlite.view.ShadowView
         android:id="@+id/shadowView"
         android:layout_width="0dp"
-        android:layout_height="4dp"
+        android:layout_height="3dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/headerTitle" />
