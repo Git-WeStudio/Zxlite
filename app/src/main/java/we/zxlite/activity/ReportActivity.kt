@@ -86,6 +86,10 @@ class ReportActivity : BaseActivity() {
             "A3" -> 7.2F
             "A2" -> 7.6F
             "A1" -> 8F
+            "A等" -> 8F
+            "B等" -> 6F
+            "C等" -> 4F
+            "D等" -> 2F
             else -> 0F
         }
 
