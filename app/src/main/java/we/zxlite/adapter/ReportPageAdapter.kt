@@ -7,7 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_report.view.*
 import we.zxlite.R
 import we.zxlite.bean.ReportPageBean
+import we.zxlite.utils.BaseUtils.EMPTY_STR
 import we.zxlite.view.ScoreChart
+import java.math.BigDecimal.ROUND_DOWN
 import java.text.DecimalFormat
 
 class ReportPageAdapter(
@@ -48,21 +50,23 @@ class ReportPageAdapter(
     override fun getItemCount() = pageList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val standardScore = pageList[position].standardScore
-        val userScore = pageList[position].userScore
-        val examDeduct = ((standardScore - userScore).toString() + " 分").replace(".0", "")
-        val examScore = "$userScore / $standardScore".replace(".0", "")
-        val examScale = DecimalFormat("0").format(userScore * 100 / standardScore)
-        val examDetail =
-            "•   我的分数： $examScore\n\n•   等级评估： ${examScale.toInt().examLevel}\n\n•   分数总扣： $examDeduct\n\n•   分数占比： $examScale %"
-        val examAdvice =
-            "•   学科诊断： ${examScale.toInt().examDiagnosis}\n\n•   学科建议： ${examScale.toInt().examAdvice}"
+        val standardScore = pageList[position].standardScore.toBigDecimal()
+        val userScore = pageList[position].userScore.toBigDecimal()
+        val examScale =
+            userScore.multiply(100.toBigDecimal()).divide(standardScore, 0, ROUND_DOWN).toInt() //占比
+        val examDeduct = standardScore.subtract(userScore).stripTrailingZeros().toPlainString() //扣分
+        val showScore =
+            "${userScore.stripTrailingZeros().toPlainString()} / ${standardScore.stripTrailingZeros().toPlainString()}"
+        val showDetail =
+            "•   我的分数： $showScore\n\n•   等级评估： ${examScale.examLevel}\n\n•   分数总扣： $examDeduct 分\n\n•   分数占比： $examScale %"
+        val showAdvice =
+            "•   学科诊断： ${examScale.examDiagnosis}\n\n•   学科建议： ${examScale.examAdvice}"
         holder.itemView.run {
             reportTitle.text = pageList[position].paperName
             reportChartTitle.text = "•   成绩变化曲线： "
-            reportDetail.text = examDetail
-            reportAdvice.text = examAdvice
-            reportProgress.progress = (userScore / standardScore * 100).toInt()
+            reportDetail.text = showDetail
+            reportAdvice.text = showAdvice
+            reportProgress.progress = examScale
             if (reportChart.tag != true) callback(reportChart, pageList[position].paperId)
         }
     }
