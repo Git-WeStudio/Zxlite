@@ -23,7 +23,7 @@ object UserUtils {
     //用户配置
     var cfg = UserConfigBean()
     //检测登录是否过期
-    val isExpired get() = (cfg.serviceTime ?: 0) + 3600000L < currentTimeMillis()
+    val isExpired get() = (cfg.serviceTime ?: 0) < currentTimeMillis() - 1800000L
 
     private const val LOG_URL = "https://www.zhixue.com/container/app/login" //登录账号URL
     private const val INFO_URL =

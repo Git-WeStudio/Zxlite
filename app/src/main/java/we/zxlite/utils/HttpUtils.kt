@@ -50,9 +50,9 @@ object HttpUtils {
      */
     suspend fun Activity.api(url: String, params: String?, add: Boolean, type: Type?): Any {
         if (isExpired) {
+            cfg.clean()
             updateConfig()
             if (!login()) {
-                cfg.clean()
                 withContext(Main) {
                     startActivity(
                         intentFor<LoginActivity>()
