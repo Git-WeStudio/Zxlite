@@ -7,10 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_report.view.*
 import we.zxlite.R
 import we.zxlite.bean.ReportPageBean
-import we.zxlite.utils.BaseUtils.EMPTY_STR
 import we.zxlite.view.ScoreChart
 import java.math.BigDecimal.ROUND_DOWN
-import java.text.DecimalFormat
 
 class ReportPageAdapter(
     private val pageList: ArrayList<ReportPageBean>,
