@@ -134,6 +134,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private fun changeReportType(type: String, item: MenuItem) {
         db.use { replace(TABLE_CFG, ITEM_NAME to REPORT_TYPE, ITEM_VALUE to type) }
         mainNav.setCheckedItem(item)
+        mainFab.hide()
         mainDrawer.closeDrawers()
         mainRecycler.adapter!!.notifyItemRangeRemoved(0, reportList.size)
         reportList.clear()
