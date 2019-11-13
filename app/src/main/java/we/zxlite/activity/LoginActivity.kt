@@ -59,6 +59,11 @@ class LoginActivity : BaseActivity() {
         loginForget.setOnClickListener { browse(FORGET_URL) }
         loginReg.setOnClickListener { startActivity<RegisterActivity>() }
         loginBtn.setOnClickListener { onLogin() }
+        db.use {
+            select(TABLE_CFG, ITEM_VALUE)
+                .whereSimple("$ITEM_NAME = '$SELECT_USER'")
+                .exec { if (moveToFirst()) loginUsername.setText(getString(0)) else null }
+        }
     }
 
     /**检查登录参数
