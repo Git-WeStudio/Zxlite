@@ -82,6 +82,7 @@ class AnalyzeActivity : BaseActivity() {
         setSupportActionBar(analyzeBar)
         analyzeBar.setNavigationOnClickListener { onBackPressed() }
         analyzePager.adapter = AnalyzePageAdapter(analyzePageList)
+        analyzePager.offscreenPageLimit = 3
         TabLayoutMediator(analyzeTab, analyzePager, TabConfigurationStrategy { tab, position ->
             val tabView = View.inflate(this, R.layout.item_tab, null) as TextView
             tabView.text = analyzePageList[position].disTitleNumber
