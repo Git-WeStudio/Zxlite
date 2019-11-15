@@ -1,6 +1,9 @@
 package we.zxlite.activity
 
+import android.graphics.Color.RED
 import android.os.Bundle
+import android.view.View
+import android.widget.TextView
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.tabs.TabLayoutMediator.TabConfigurationStrategy
 import kotlinx.android.synthetic.main.activity_analyze.*
@@ -12,6 +15,7 @@ import org.json.JSONObject
 import we.zxlite.R
 import we.zxlite.adapter.AnalyzePageAdapter
 import we.zxlite.bean.AnalyzePageBean
+import we.zxlite.utils.BaseUtils.color
 import we.zxlite.utils.HttpUtils.Error
 import we.zxlite.utils.HttpUtils.Type.JsonObject
 import we.zxlite.utils.HttpUtils.api
@@ -78,7 +82,21 @@ class AnalyzeActivity : BaseActivity() {
         analyzeBar.setNavigationOnClickListener { onBackPressed() }
         analyzePager.adapter = AnalyzePageAdapter(analyzePageList)
         TabLayoutMediator(analyzeTab, analyzePager, TabConfigurationStrategy { tab, position ->
-            tab.text = analyzePageList[position].dispTitleNumber
+            val tabView = View.inflate(this, R.layout.tab_analyze, null) as TextView
+            tabView.text = analyzePageList[position].dispTitleNumber
+            when {
+                analyzePageList[position].score == analyzePageList[position].standardScore ->
+                    tab.tag = 0
+                analyzePageList[position].score == 0.0 -> {
+                    tab.tag = 1
+                    tabView.setTextColor(RED)
+                }
+                else -> {
+                    tab.tag = 2
+                    tabView.setTextColor(color(R.color.colorDeepYellow))
+                }
+            }
+            tab.customView = tabView
         }).attach()
     }
 
