@@ -34,11 +34,17 @@ class AnalyzeActivity : BaseActivity() {
         //主题分析
         private const val TYPE_DTOS = "topicAnalysisDTOs"
         //题号
-        private const val DISP_TITLE_NUMBER = "disTitleNumber"
+        private const val DIS_TITLE_NUMBER = "disTitleNumber"
+        //答案类型
+        private const val ANSWER_TYPE = "answerType"
+        //答案Html
+        private const val ANALYSIS_HTML = "analysisHtml"
         //答案Html
         private const val ANSWER_HTML = "answerHtml"
         //题头
         private const val TOPIC_NUMBER = "topicNumber"
+        //主题id
+        private const val TOPIC_ID = " topicId"
         //主题id
         private const val TOPIC_SET_ID = " topicSetId"
         //主题分数
@@ -79,7 +85,7 @@ class AnalyzeActivity : BaseActivity() {
         analyzePager.adapter = AnalyzePageAdapter(analyzePageList)
         TabLayoutMediator(analyzeTab, analyzePager, TabConfigurationStrategy { tab, position ->
             val tabView = View.inflate(this, R.layout.item_tab, null) as TextView
-            tabView.text = analyzePageList[position].dispTitleNumber
+            tabView.text = analyzePageList[position].disTitleNumber
             when {
                 analyzePageList[position].score == analyzePageList[position].standardScore ->
                     tab.tag = 0
@@ -108,19 +114,22 @@ class AnalyzeActivity : BaseActivity() {
                             val topic = topicDTOs.optJSONObject(dto)
                             analyzePageList.add(
                                 AnalyzePageBean(
-                                    topic.optString(DISP_TITLE_NUMBER),
-                                    topic.optString(ANSWER_HTML),
-                                    topic.optInt(TOPIC_NUMBER),
-                                    topic.optString(TOPIC_SET_ID),
-                                    topic.optString(TOPIC_SCORE_DTOS),
-                                    topic.optString(STANDARD_ANSWER),
-                                    topic.optString(USER_ANSWER),
-                                    topic.optString(USER_ANSWERS),
-                                    topic.optString(IMAGE_ANSWER),
-                                    topic.optDouble(STANDARD_SCORE),
-                                    topic.optDouble(SCORE),
-                                    topic.optString(CONTENT_HTML),
-                                    topic.optString(KNOWLEDGE_GROUPS)
+                                    disTitleNumber = topic.optString(DIS_TITLE_NUMBER),
+                                    topicNumber = topic.optInt(TOPIC_NUMBER),
+                                    topicScoreDTOs = topic.optString(TOPIC_SCORE_DTOS),
+                                    topicId = topic.optString(TOPIC_ID),
+                                    topicSetId = topic.optString(TOPIC_SET_ID),
+                                    analysisHtml = topic.optString(ANALYSIS_HTML),
+                                    contentHtml = topic.optString(CONTENT_HTML),
+                                    answerType = topic.optString(ANSWER_TYPE),
+                                    answerHtml = topic.optString(ANSWER_HTML),
+                                    standardAnswer = topic.optString(STANDARD_ANSWER),
+                                    standardScore = topic.optDouble(STANDARD_SCORE),
+                                    score = topic.optDouble(SCORE),
+                                    userAnswer = topic.optString(USER_ANSWER),
+                                    userAnswers = topic.optString(USER_ANSWERS),
+                                    imageAnswers = topic.optString(IMAGE_ANSWER),
+                                    relatedKnowledgeGroups = topic.optString(KNOWLEDGE_GROUPS)
                                 )
                             )
                         }

@@ -1,17 +1,20 @@
 package we.zxlite.bean
 
 data class AnalyzePageBean(
-    var dispTitleNumber: String, //题号
-    var answerHtml: String, //答案Html
-    var topicNumber: Int, //题头
-    var topicSetId: String, //主题id
-    var topicScoreDTOs: String, //主题分数
-    var standardAnswer: String, //标准答案
-    var userAnswer: String, //用户答案
-    var userAnswers: String, //用户答案
-    var imageAnswer: String, //图像答案
-    var standardScore: Double, //标准分数
-    var score: Double, //分数
-    var contentHtml: String, //题目
-    var relatedKnowledgeGroups: String //知识点
+    var disTitleNumber: String,
+    var topicNumber: Int,
+    var topicScoreDTOs: String,
+    var topicId: String,
+    var topicSetId: String,
+    var analysisHtml: String,
+    var contentHtml: String,
+    var answerType: String,
+    var answerHtml: String,
+    var standardAnswer: String,
+    var standardScore: Double,
+    var score: Double,
+    var userAnswer: String,
+    var userAnswers: String,
+    var imageAnswers: String,
+    var relatedKnowledgeGroups: String
 )

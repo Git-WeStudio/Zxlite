@@ -153,9 +153,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                         val item = examInfoList.optJSONObject(i)
                         reportList.add(
                             ReportListBean(
-                                item.optString(EXAM_ID),
-                                item.optString(EXAM_NAME),
-                                item.optLong(CREATE_TIME)
+                                examId = item.optString(EXAM_ID),
+                                examName = item.optString(EXAM_NAME),
+                                examCreateTime = item.optLong(CREATE_TIME)
                             )
                         )
                     }

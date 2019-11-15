@@ -19,12 +19,8 @@ class AnalyzePageAdapter(private val analyzeList: ArrayList<AnalyzePageBean>) :
     override fun getItemCount() = analyzeList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        (holder.itemView as RecyclerView).run {
-            analyzeList[position].let {
-                val list = ArrayList<AnalyzeListBean>()
-                adapter = AnalyzeListAdapter(list)
-            }
-        }
+        val list = ArrayList<AnalyzeListBean>()
+        (holder.itemView as RecyclerView).adapter = AnalyzeListAdapter(list)
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)

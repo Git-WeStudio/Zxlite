@@ -158,22 +158,15 @@ class ReportActivity : BaseActivity() {
                     val reportList = it.optJSONArray(PAPER_LIST)
                     for (i in 0 until reportList!!.length()) {
                         val item = reportList.optJSONObject(i)
-                        val title = item.optString(TITLE)
-                        val paperId = item.optString(PAPER_ID)
-                        val paperName = item.optString(PAPER_NAME)
-                        val standardScore = item.optDouble(STANDARD_SCORE)
-                        val userScore = item.optDouble(USER_SCORE)
-                        val subjectCode = item.optInt(SUBJECT_CODE)
-                        val subjectName = item.optString(SUBJECT_NAME)
-                        if (paperId.isNotEmpty() && subjectCode != 0) reportPageList.add(
+                        reportPageList.add(
                             ReportPageBean(
-                                title,
-                                paperId,
-                                paperName,
-                                standardScore,
-                                userScore,
-                                subjectCode,
-                                subjectName
+                                title = item.optString(TITLE),
+                                paperId = item.optString(PAPER_ID),
+                                paperName = item.optString(PAPER_NAME),
+                                standardScore = item.optDouble(STANDARD_SCORE),
+                                userScore = item.optDouble(USER_SCORE),
+                                subjectCode = item.optInt(SUBJECT_CODE),
+                                subjectName = item.optString(SUBJECT_NAME)
                             )
                         )
                     }
