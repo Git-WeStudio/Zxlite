@@ -19,7 +19,8 @@ class AnalyzeListAdapter(private val analyzeList: ArrayList<AnalyzeListBean>) :
         ViewHolder(from(parent.context).inflate(R.layout.item_analyze, parent, false))
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.itemView.itemTitle.text = analyzeList[position].title
+        val itemText = "•   ${analyzeList[position].title}"
+        holder.itemView.itemTitle.text = itemText
         holder.itemView.itemContent.text = HtmlCompat.fromHtml(analyzeList[position].content,
             FROM_HTML_MODE_LEGACY,
             ImageGetter(holder.itemView.itemContent),

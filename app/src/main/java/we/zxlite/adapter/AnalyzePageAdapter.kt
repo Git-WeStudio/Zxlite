@@ -10,6 +10,9 @@ import we.zxlite.bean.AnalyzePageBean
 
 class AnalyzePageAdapter(private val analyzeList: ArrayList<AnalyzePageBean>) :
     RecyclerView.Adapter<AnalyzePageAdapter.ViewHolder>() {
+
+    companion object;
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(from(parent.context).inflate(R.layout.fragment_analyze, parent, false))
 
@@ -17,9 +20,10 @@ class AnalyzePageAdapter(private val analyzeList: ArrayList<AnalyzePageBean>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         (holder.itemView as RecyclerView).run {
-            val list = ArrayList<AnalyzeListBean>()
-            list.add(AnalyzeListBean("题目解析", analyzeList[position].contentHtml))
-            adapter = AnalyzeListAdapter(list)
+            analyzeList[position].let {
+                val list = ArrayList<AnalyzeListBean>()
+                adapter = AnalyzeListAdapter(list)
+            }
         }
     }
 

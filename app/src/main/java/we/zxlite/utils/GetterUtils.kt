@@ -29,7 +29,16 @@ object GetterUtils {
             override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                 val drawable = BitmapDrawable(htmlView.context.resources, resource)
                 htmlView.post {
-                    val rect = Rect(0, 0, drawable.intrinsicWidth * 2, drawable.intrinsicHeight * 2)
+                    val width: Int
+                    val height: Int
+                    if (drawable.intrinsicWidth * 2 > htmlView.width) {
+                        width = htmlView.width
+                        height = drawable.intrinsicHeight * htmlView.width / drawable.intrinsicWidth
+                    } else {
+                        width = drawable.intrinsicWidth * 2
+                        height = drawable.intrinsicHeight * 2
+                    }
+                    val rect = Rect(0, 0, width, height)
                     drawable.bounds = rect
                     urlDrawable.bounds = rect
                     urlDrawable.drawable = drawable

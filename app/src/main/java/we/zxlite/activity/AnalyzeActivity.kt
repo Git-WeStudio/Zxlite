@@ -35,8 +35,6 @@ class AnalyzeActivity : BaseActivity() {
         private const val TYPE_DTOS = "topicAnalysisDTOs"
         //题号
         private const val DISP_TITLE_NUMBER = "disTitleNumber"
-        //答案类型
-        private const val ANSWER_TYPE = "answerType"
         //答案Html
         private const val ANSWER_HTML = "answerHtml"
         //题头
@@ -53,8 +51,6 @@ class AnalyzeActivity : BaseActivity() {
         private const val USER_ANSWERS = " userAnswers"
         //图像答案
         private const val IMAGE_ANSWER = "imageAnswer"
-        //html解析
-        private const val ANALYSIS_HTML = " analysisHtml"
         //标准分数
         private const val STANDARD_SCORE = "standardScore"
         //分数
@@ -82,7 +78,7 @@ class AnalyzeActivity : BaseActivity() {
         analyzeBar.setNavigationOnClickListener { onBackPressed() }
         analyzePager.adapter = AnalyzePageAdapter(analyzePageList)
         TabLayoutMediator(analyzeTab, analyzePager, TabConfigurationStrategy { tab, position ->
-            val tabView = View.inflate(this, R.layout.tab_analyze, null) as TextView
+            val tabView = View.inflate(this, R.layout.item_tab, null) as TextView
             tabView.text = analyzePageList[position].dispTitleNumber
             when {
                 analyzePageList[position].score == analyzePageList[position].standardScore ->
@@ -113,7 +109,6 @@ class AnalyzeActivity : BaseActivity() {
                             analyzePageList.add(
                                 AnalyzePageBean(
                                     topic.optString(DISP_TITLE_NUMBER),
-                                    topic.optString(ANSWER_TYPE),
                                     topic.optString(ANSWER_HTML),
                                     topic.optInt(TOPIC_NUMBER),
                                     topic.optString(TOPIC_SET_ID),
@@ -122,7 +117,6 @@ class AnalyzeActivity : BaseActivity() {
                                     topic.optString(USER_ANSWER),
                                     topic.optString(USER_ANSWERS),
                                     topic.optString(IMAGE_ANSWER),
-                                    topic.optString(ANALYSIS_HTML),
                                     topic.optDouble(STANDARD_SCORE),
                                     topic.optDouble(SCORE),
                                     topic.optString(CONTENT_HTML),
