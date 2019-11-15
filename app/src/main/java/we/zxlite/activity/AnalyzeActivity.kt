@@ -28,9 +28,9 @@ class AnalyzeActivity : BaseActivity() {
         //主题分析
         private const val TYPE_DTOS = "topicAnalysisDTOs"
         //题号
-        private const val DIS_TITLE_NUMBER = "disTitleNumber"
-        //题标题
-        private const val DIS_TITLE = "disTitle"
+        private const val DISP_TITLE_NUMBER = "disTitleNumber"
+        //题头
+        private const val DISP_TITLE = "dispTitle"
         //答案类型
         private const val ANSWER_TYPE = "answerType"
         //答案Html
@@ -53,6 +53,8 @@ class AnalyzeActivity : BaseActivity() {
         private const val STANDARD_SCORE = "standardScore"
         //分数
         private const val SCORE = "score"
+        //题目
+        private const val CONTENT_HTML = "contentHtml"
         //知识点
         private const val KNOWLEDGE_GROUPS = "relatedKnowledgeGroups"
     }
@@ -74,7 +76,7 @@ class AnalyzeActivity : BaseActivity() {
         analyzeBar.setNavigationOnClickListener { onBackPressed() }
         analyzePager.adapter = AnalyzePageAdapter(analyzePageList)
         TabLayoutMediator(analyzeTab, analyzePager, TabConfigurationStrategy { tab, position ->
-            tab.text = analyzePageList[position].dispTitle
+            tab.text = analyzePageList[position].dispTitleNumber
         }).attach()
     }
 
@@ -90,8 +92,8 @@ class AnalyzeActivity : BaseActivity() {
                             val topic = topicDTOs.optJSONObject(dto)
                             analyzePageList.add(
                                 AnalyzePageBean(
-                                    topic.optString(DIS_TITLE_NUMBER),
-                                    topic.optString(DIS_TITLE),
+                                    topic.optString(DISP_TITLE_NUMBER),
+                                    topic.optString(DISP_TITLE),
                                     topic.optString(ANSWER_TYPE),
                                     topic.optString(ANSWER_HTML),
                                     topic.optString(TOPIC_SET_ID),
@@ -103,6 +105,7 @@ class AnalyzeActivity : BaseActivity() {
                                     topic.optString(ANALYSIS_HTML),
                                     topic.optDouble(STANDARD_SCORE),
                                     topic.optDouble(SCORE),
+                                    topic.optString(CONTENT_HTML),
                                     topic.optString(KNOWLEDGE_GROUPS)
                                 )
                             )

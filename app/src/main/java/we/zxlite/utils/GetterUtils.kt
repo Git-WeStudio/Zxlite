@@ -12,7 +12,7 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import we.zxlite.GlideApp
 
-object ImageUtils {
+object GetterUtils {
 
     class ImageGetter(val htmlView: TextView) :
         Html.ImageGetter {
