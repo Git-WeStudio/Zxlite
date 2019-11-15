@@ -15,6 +15,8 @@ import we.zxlite.bean.AnalyzePageBean
 import we.zxlite.utils.HttpUtils.Error
 import we.zxlite.utils.HttpUtils.Type.JsonObject
 import we.zxlite.utils.HttpUtils.api
+import kotlin.Comparator
+import kotlin.collections.ArrayList
 
 class AnalyzeActivity : BaseActivity() {
 
@@ -29,12 +31,12 @@ class AnalyzeActivity : BaseActivity() {
         private const val TYPE_DTOS = "topicAnalysisDTOs"
         //题号
         private const val DISP_TITLE_NUMBER = "disTitleNumber"
-        //题头
-        private const val DISP_TITLE = "dispTitle"
         //答案类型
         private const val ANSWER_TYPE = "answerType"
         //答案Html
         private const val ANSWER_HTML = "answerHtml"
+        //题头
+        private const val TOPIC_NUMBER = "topicNumber"
         //主题id
         private const val TOPIC_SET_ID = " topicSetId"
         //主题分数
@@ -93,9 +95,9 @@ class AnalyzeActivity : BaseActivity() {
                             analyzePageList.add(
                                 AnalyzePageBean(
                                     topic.optString(DISP_TITLE_NUMBER),
-                                    topic.optString(DISP_TITLE),
                                     topic.optString(ANSWER_TYPE),
                                     topic.optString(ANSWER_HTML),
+                                    topic.optInt(TOPIC_NUMBER),
                                     topic.optString(TOPIC_SET_ID),
                                     topic.optString(TOPIC_SCORE_DTOS),
                                     topic.optString(STANDARD_ANSWER),
@@ -111,6 +113,9 @@ class AnalyzeActivity : BaseActivity() {
                             )
                         }
                     }
+                    analyzePageList.sortWith(Comparator { o1, o2 ->
+                        if (o1.topicNumber > o2.topicNumber) 1 else -1
+                    })
                     withContext(Main) {
                         analyzePager.adapter!!.notifyItemRangeInserted(0, analyzePageList.size)
                     }

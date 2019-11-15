@@ -2,9 +2,9 @@ package we.zxlite.bean
 
 data class AnalyzePageBean(
     var dispTitleNumber: String, //题号
-    var dispTitle: String, //题头
     var answerType: String, //答案类型
     var answerHtml: String, //答案Html
+    var topicNumber: Int, //题头
     var topicSetId: String, //主题id
     var topicScoreDTOs: String, //主题分数
     var standardAnswer: String, //标准答案
