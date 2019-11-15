@@ -44,17 +44,17 @@ class AnalyzeActivity : BaseActivity() {
         //题头
         private const val TOPIC_NUMBER = "topicNumber"
         //主题id
-        private const val TOPIC_ID = " topicId"
+        private const val TOPIC_ID = "topicId"
         //主题id
-        private const val TOPIC_SET_ID = " topicSetId"
+        private const val TOPIC_SET_ID = "topicSetId"
         //主题分数
         private const val TOPIC_SCORE_DTOS = "topicScoreDTOs"
         //标准答案
-        private const val STANDARD_ANSWER = " standardAnswer"
+        private const val STANDARD_ANSWER = "standardAnswer"
         //用户答案
-        private const val USER_ANSWER = " userAnswer"
+        private const val USER_ANSWER = "userAnswer"
         //用户答案
-        private const val USER_ANSWERS = " userAnswers"
+        private const val USER_ANSWERS = "userAnswers"
         //图像答案
         private const val IMAGE_ANSWER = "imageAnswer"
         //标准分数
@@ -66,7 +66,6 @@ class AnalyzeActivity : BaseActivity() {
         //知识点
         private const val KNOWLEDGE_GROUPS = "relatedKnowledgeGroups"
     }
-
 
     //解析页列表
     private val analyzePageList = ArrayList<AnalyzePageBean>()
