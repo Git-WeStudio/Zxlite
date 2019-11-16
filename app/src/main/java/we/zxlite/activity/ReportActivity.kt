@@ -111,6 +111,10 @@ class ReportActivity : BaseActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val selected = reportPageList[reportPager.currentItem].paperId
+        if (selected.isEmpty()) {
+            toast("全科无法查看")
+            return true
+        }
         when (item.itemId) {
             R.id.menuAnalyze -> startActivity<AnalyzeActivity>(PAPER_ID to selected)
             R.id.menuPaper -> startActivity<PaperActivity>(PAPER_ID to selected)
