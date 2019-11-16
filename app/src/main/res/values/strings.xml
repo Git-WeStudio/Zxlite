@@ -55,4 +55,10 @@
     <string name="paperTitle">原卷查看</string>
     <string name="analyzeTitle">题目解析</string>
     <string name="titleGuess">好友伴学</string>
+    <string name="guessMyScore">我的分数</string>
+    <string name="guessSubject">学科</string>
+    <string name="guessFriendScore">TA的分数</string>
+    <string name="guessSelect">选择</string>
+    <string name="guessSelectText">请选择伴学对象</string>
+    <string name="noFriends">没有好友</string>
 </resources>

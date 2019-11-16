@@ -21,14 +21,104 @@
             android:layout_height="wrap_content"
             app:navigationIcon="@drawable/ic_arrow_back"
             app:title="@string/titleGuess" />
-
     </com.google.android.material.appbar.AppBarLayout>
+
+    <TextView
+        android:id="@+id/guessMyScore"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:text="@string/guessMyScore"
+        android:textColor="@color/colorTitle"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@id/guessSubject"
+        app:layout_constraintHorizontal_weight="3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guessBarLayout" />
+
+    <TextView
+        android:id="@+id/guessSubject"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:text="@string/guessSubject"
+        android:textColor="@color/colorTitle"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@id/guessFriendScore"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintHorizontal_weight="2"
+        app:layout_constraintStart_toEndOf="@id/guessMyScore"
+        app:layout_constraintTop_toBottomOf="@id/guessBarLayout" />
+
+    <TextView
+        android:id="@+id/guessFriendScore"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:text="@string/guessFriendScore"
+        android:textColor="@color/colorTitle"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="3"
+        app:layout_constraintStart_toEndOf="@id/guessSubject"
+        app:layout_constraintTop_toBottomOf="@id/guessBarLayout" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/guessRecycler"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@id/guessSelect"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guessSubject"
+        app:layout_constraintVertical_bias="0.0"
+        tools:listitem="@layout/item_guess" />
 
     <we.zxlite.view.ShadowView
         android:layout_width="0dp"
         android:layout_height="3dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/guessBarLayout" />
+        app:layout_constraintTop_toBottomOf="@id/guessSubject" />
+
+    <we.zxlite.view.ShadowView
+        android:layout_width="0dp"
+        android:layout_height="3dp"
+        app:isTop="false"
+        app:layout_constraintBottom_toTopOf="@id/guessSelect"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/guessSelectText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="@string/guessSelectText"
+        android:textColor="@color/colorTitle"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/guessSelect"
+        app:layout_constraintEnd_toStartOf="@id/guessSelect"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/guessSelect" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/guessSelect"
+        style="?android:buttonBarButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/guessSelect"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/guessSelectText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
