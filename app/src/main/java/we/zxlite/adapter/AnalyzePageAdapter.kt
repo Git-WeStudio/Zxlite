@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.LayoutInflater.from
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.fragment_analyze.view.*
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -24,6 +23,7 @@ class AnalyzePageAdapter(private val analyzeList: ArrayList<AnalyzePageBean>) :
         private const val TITLE_MY_ANSWER = "我的答案"
         private const val TITLE_ANALYSIS = "题目解析"
         private const val TITLE_CORRECT = "正确答案"
+        private const val TITLE_KNOW_LEDGES = "知识点"
 
         private const val SCORE = "score"
         private const val NAME = "name"
@@ -84,7 +84,7 @@ class AnalyzePageAdapter(private val analyzeList: ArrayList<AnalyzePageBean>) :
                 }
                 buffer.append("<br/>")
             }
-            return AnalyzeListBean("知识点", buffer.toString())
+            return AnalyzeListBean(TITLE_KNOW_LEDGES, buffer.toString())
         }
 
     private val String.score: AnalyzeListBean?
@@ -106,16 +106,17 @@ class AnalyzePageAdapter(private val analyzeList: ArrayList<AnalyzePageBean>) :
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
-        ViewHolder(from(parent.context).inflate(R.layout.fragment_analyze, parent, false).apply {
-            analyzeRecycler.addItemDecoration(ItemDecoration())
-            analyzeRecycler.setHasFixedSize(true)
+        ViewHolder((from(parent.context)
+            .inflate(R.layout.fragment_analyze, parent, false) as RecyclerView).apply {
+            addItemDecoration(ItemDecoration())
+            setHasFixedSize(true)
         })
 
     override fun getItemCount() = analyzeList.size
 
     override fun onBindViewHolder(holder: ViewHolder, i: Int) {
-        val list = ArrayList<AnalyzeListBean>()
         GlobalScope.launch {
+            val list = ArrayList<AnalyzeListBean>()
             analyzeList[i].run {
                 if (contentHtml.isNotEmpty()) list.add(i.topic)
                 if (topicScoreDTOs.score == null) {
@@ -130,12 +131,10 @@ class AnalyzePageAdapter(private val analyzeList: ArrayList<AnalyzePageBean>) :
                     list.add(AnalyzeListBean(TITLE_MY_ANSWER, userAnswer))
                 else if (userAnswers.isNotEmpty() && userAnswers.answer != null)
                     list.add(userAnswers.answer!!)
-                if (imageAnswers.isNotEmpty()) {
-                    list.add(imageAnswers.imgAnswer)
-                }
-                if (standardAnswer.isNotEmpty() && answerHtml == "略") {
+                if (imageAnswers.isNotEmpty()) list.add(imageAnswers.imgAnswer)
+                if (standardAnswer.isNotEmpty() && answerHtml == "略")
                     list.add(standardAnswer.standard)
-                } else
+                else
                     list.add(AnalyzeListBean(TITLE_CORRECT, answerHtml))
                 if (analysisHtml.isNotEmpty()) list.add(analysisHtml.analysis)
                 if (relatedKnowledgeGroups.isNotEmpty()) list.add(relatedKnowledgeGroups.knowledge)
@@ -146,7 +145,7 @@ class AnalyzePageAdapter(private val analyzeList: ArrayList<AnalyzePageBean>) :
         }
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    class ViewHolder(itemView: RecyclerView) : RecyclerView.ViewHolder(itemView)
 
     class ItemDecoration : RecyclerView.ItemDecoration() {
         override fun getItemOffsets(
