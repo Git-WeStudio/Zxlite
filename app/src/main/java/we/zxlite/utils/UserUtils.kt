@@ -21,7 +21,8 @@ import java.lang.System.currentTimeMillis
 object UserUtils {
 
     //用户配置
-    var cfg = UserConfigBean()
+    val cfg = UserConfigBean()
+
     //检测登录是否过期
     val isExpired get() = (cfg.serviceTime ?: 0) < currentTimeMillis() - 1800000L
 
@@ -55,6 +56,7 @@ object UserUtils {
                 cfg.curName = optJSONObject(USER_INFO)!!.optString(NAME)
                 cfg.serviceTime = optJSONObject(SERVER_INFO)!!.optLong(CUR_SERVER_TIME)
                 cfg.serviceToken = optString(TOKEN)
+
                 connApi(INFO_URL, EMPTY_STR, true, JsonObject).run {
                     if (this is JSONObject) cfg.curId = optString(CUR_CHILD_ID)
                 }
@@ -65,10 +67,12 @@ object UserUtils {
 
     /** 更新信息 */
     fun Context.updateConfig() = db.use {
-        select(TABLE_CFG, ITEM_VALUE).whereSimple("$ITEM_NAME = '$SELECT_USER'")
+        select(TABLE_CFG, ITEM_VALUE)
+            .whereSimple("$ITEM_NAME = '$SELECT_USER'")
             .exec { if (moveToFirst()) getString(0) else null }
             ?.let { userName ->
-                select(TABLE_RMB, ITEM_VALUE).whereSimple("$ITEM_NAME = '$userName'")
+                select(TABLE_RMB, ITEM_VALUE)
+                    .whereSimple("$ITEM_NAME = '$userName'")
                     .exec { if (moveToFirst()) getString(0) else null }
                     ?.let { userPwd ->
                         cfg.logName = userName

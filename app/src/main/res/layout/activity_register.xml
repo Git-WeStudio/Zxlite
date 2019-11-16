@@ -31,7 +31,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.2" />
+            app:layout_constraintVertical_bias="0.18" />
 
         <TextView
             android:id="@+id/regSubTitle"
@@ -40,7 +40,6 @@
             android:layout_marginTop="4dp"
             android:text="@string/regSubTitle"
             android:textColor="@color/colorSubTitle"
-            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/regTitle" />
@@ -175,6 +174,5 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/regSmsCode" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

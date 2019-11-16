@@ -20,39 +20,42 @@ object BaseUtils {
     /** 转为RC4 */
     val String.rc4: String
         get() {
-            val dataBytes = toByteArray()
-            val keyBytes = "iflytek_pass_edp".toByteArray()
-            val bytes = ByteArray(dataBytes.size)
+            val data = this.toByteArray() //需要转换的字节
+            val key = "iflytek_pass_edp".toByteArray() //密钥的字节
+
+            val b = ByteArray(data.size)
             val s = ByteArray(256)
             var x = 0
             var y = 0
+
             for (i in s.indices) {
                 s[i] = i.toByte()
             }
+
             for (i in s.indices) {
-                y = y + s[i] + keyBytes[i % keyBytes.size] and 0xFF
+                y = y + s[i] + key[i % key.size] and 0xFF
                 s[i] = s[i] xor s[y]
                 s[y] = s[y] xor s[i]
                 s[i] = s[i] xor s[y]
             }
             y = 0
-            for (counter in dataBytes.indices) {
+            for (counter in data.indices) {
                 x = x + 1 and 0xFF
                 y = y + s[x] and 0xFF
                 s[x] = s[x] xor s[y]
                 s[y] = s[y] xor s[x]
                 s[x] = s[x] xor s[y]
                 val k = s[s[x] + s[y] and 0xFF]
-                bytes[counter] = dataBytes[counter] xor k
+                b[counter] = data[counter] xor k
             }
-            return bytes.hexString
+            return b.hexString
         }
     /** 转为MD5 */
     val String.md5: String
         get() {
-            val ins = MessageDigest.getInstance("MD5")
-            ins.update(toByteArray())
-            return ins.digest().hexString
+            val digest = MessageDigest.getInstance("MD5")
+            digest.update(toByteArray())
+            return digest.digest().hexString
         }
     /** 转为位图 */
     val String.bitmap: Bitmap
@@ -64,15 +67,15 @@ object BaseUtils {
     private val ByteArray.hexString: String
         get() {
             val builder = StringBuilder()
-            for (b in this) {
-                val i: Int = b.toInt() and 255
+            for (byte in this) {
+                val i: Int = byte.toInt() and 255
                 builder.append("${if (i < 16) "0" else EMPTY_STR}${toHexString(i)}")
             }
             return builder.toString()
         }
 
     /** 获取颜色值 */
-    fun Context.color(colorResId: Int) = ContextCompat.getColor(this, colorResId)
+    fun Context.color(resId: Int) = ContextCompat.getColor(this, resId)
 
     /** 转为HttpURLConnection */
     fun String.conn() = URL(this).openConnection() as HttpURLConnection

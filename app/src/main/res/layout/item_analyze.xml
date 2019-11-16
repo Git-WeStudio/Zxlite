@@ -19,5 +19,4 @@
         android:textSize="12sp"
         android:layout_marginTop="8dp"
         android:textColor="@color/colorTitle" />
-
 </LinearLayout>

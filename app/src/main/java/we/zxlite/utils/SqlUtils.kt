@@ -29,8 +29,8 @@ object SqlUtils {
         }
 
         override fun onCreate(db: SQLiteDatabase) {
-            db.createTable(TABLE_RMB, true, ITEM_NAME to TEXT + UNIQUE, ITEM_VALUE to TEXT)
-            db.createTable(TABLE_CFG, true, ITEM_NAME to TEXT + UNIQUE, ITEM_VALUE to TEXT)
+            db.createTable(TABLE_RMB, true, ITEM_NAME to TEXT + UNIQUE, ITEM_VALUE to TEXT) //创建记住密码表
+            db.createTable(TABLE_CFG, true, ITEM_NAME to TEXT + UNIQUE, ITEM_VALUE to TEXT) //创建用户配置表
         }
 
         override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {

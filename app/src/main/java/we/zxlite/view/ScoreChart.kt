@@ -20,7 +20,7 @@ import we.zxlite.R
 import we.zxlite.utils.BaseUtils.EMPTY_STR
 import we.zxlite.utils.BaseUtils.color
 
-class ScoreChart(context: Context, attributes: AttributeSet) : LineChart(context, attributes) {
+class ScoreChart(ctx: Context, attr: AttributeSet) : LineChart(ctx, attr) {
 
     var legendEntries = ArrayList<LegendEntry>()
 

@@ -82,13 +82,13 @@ class ReportPageAdapter(
             reportChartTitle.text = "•   成绩变化曲线： "
             reportDetail.text = showDetail
             reportAdvice.text = showAdvice
-            reportProgress.progress = examScale
+            reportProgress.value = examScale
             if (reportChart.tag != true) callback(reportChart, pageList[i].paperId)
         } else holder.itemView.run {
             reportTitle.text = pageList[i].paperName
             reportDetail.text = showDetail
             reportAdvice.text = showAdvice
-            reportProgress.progress = examScale
+            reportProgress.value = examScale
             val subjectList = ArrayList<String>()
             for (item in pageList) {
                 subjectList.add("•   ${item.title} ： ${item.userScore.toBigDecimal().stripTrailingZeros().toPlainString()} / ${item.standardScore.toBigDecimal().stripTrailingZeros().toPlainString()}")

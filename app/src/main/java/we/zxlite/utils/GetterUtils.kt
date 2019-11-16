@@ -16,11 +16,9 @@ object GetterUtils {
 
     class ImageGetter(val htmlView: TextView) :
         Html.ImageGetter {
-
         override fun getDrawable(source: String): Drawable {
             val urlDrawable = UrlDrawable()
-            val target = BitmapTarget(urlDrawable)
-            GlideApp.with(htmlView.context).asBitmap().load(source).into(target)
+            GlideApp.with(htmlView.context).asBitmap().load(source).into(BitmapTarget(urlDrawable))
             return urlDrawable
         }
 
@@ -29,19 +27,22 @@ object GetterUtils {
             override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                 val drawable = BitmapDrawable(htmlView.context.resources, resource)
                 htmlView.post {
-                    val width: Int
-                    val height: Int
-                    if (drawable.intrinsicWidth * 2 > htmlView.width) {
-                        width = htmlView.width
-                        height = drawable.intrinsicHeight * htmlView.width / drawable.intrinsicWidth
+                    val right: Int
+                    val bottom: Int
+
+                    if (drawable.intrinsicWidth * 2 > htmlView.width) { //图片宽大于htmlView宽
+                        right = htmlView.width
+                        bottom = drawable.intrinsicHeight * htmlView.width / drawable.intrinsicWidth
                     } else {
-                        width = drawable.intrinsicWidth * 2
-                        height = drawable.intrinsicHeight * 2
+                        right = drawable.intrinsicWidth * 2
+                        bottom = drawable.intrinsicHeight * 2
                     }
-                    val rect = Rect(0, 0, width, height)
+
+                    val rect = Rect(0, 0, right, bottom)
                     drawable.bounds = rect
                     urlDrawable.bounds = rect
                     urlDrawable.drawable = drawable
+
                     htmlView.text = htmlView.text
                     htmlView.invalidate()
                 }
@@ -53,6 +54,7 @@ object GetterUtils {
         class UrlDrawable(resources: Resources? = null, bitmap: Bitmap? = null) :
             BitmapDrawable(resources, bitmap) {
             var drawable: Drawable? = null
+
             override fun draw(canvas: Canvas) {
                 drawable?.draw(canvas)
             }

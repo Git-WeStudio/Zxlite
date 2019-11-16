@@ -11,6 +11,6 @@ import com.bumptech.glide.module.AppGlideModule
 class GlideModule : AppGlideModule() {
     override fun applyOptions(ctx: Context, builder: GlideBuilder) {
         super.applyOptions(ctx, builder)
-        builder.setDefaultTransitionOptions(Drawable::class.java, withCrossFade())
+        builder.setDefaultTransitionOptions(Drawable::class.java, withCrossFade()) //增加渐变动画
     }
 }

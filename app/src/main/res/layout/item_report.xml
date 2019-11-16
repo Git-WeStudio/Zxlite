@@ -4,7 +4,6 @@
     android:layout_height="wrap_content"
     android:background="?android:attr/selectableItemBackground"
     android:padding="16dp">
-
     <TextView
         android:id="@+id/itemNum"
         android:layout_width="wrap_content"

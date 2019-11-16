@@ -21,7 +21,6 @@
             android:layout_height="wrap_content"
             app:navigationIcon="@drawable/ic_arrow_back"
             app:title="@string/reportTitle" />
-
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager2.widget.ViewPager2
@@ -60,5 +59,4 @@
         app:tabIndicatorGravity="top"
         app:tabMode="scrollable"
         app:tabSelectedTextColor="@color/colorAccent" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

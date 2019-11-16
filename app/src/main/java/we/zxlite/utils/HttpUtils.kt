@@ -81,24 +81,25 @@ object HttpUtils {
                 val authGuid = randomUUID().toString()
                 val authTime = currentTimeMillis().toString()
                 val authToken = (authGuid + authTime + AUTH_KEY).md5
-                val resultConn = urlConn.apply {
-                    if (params != null) {
+                val conn = urlConn.apply {
+                    if (params != null) { //如果不等于null 将设置为post提交
                         requestMethod = "POST"
                         doOutput = true
                     }
-                    readTimeout = 10 * 1000
-                    connectTimeout = 10 * 1000
+                    readTimeout = 10 * 1000 //读取超时10s
+                    connectTimeout = 10 * 1000 //连接超时10s
                     setRequestProperty(AUTH_CODE, authCode)
                     setRequestProperty(AUTH_GUID, authGuid)
                     setRequestProperty(AUTH_TIME, authTime)
                     setRequestProperty(AUTH_TOKEN, authToken)
                 }
-                if (params != null) DataOutputStream(resultConn.outputStream).let {
-                    it.writeBytes(params)
-                    it.flush()
-                    it.close()
+                if (params != null) {
+                    val stream = DataOutputStream(conn.outputStream)
+                    stream.writeBytes(params)
+                    stream.flush()
+                    stream.close()
                 }
-                val resultData = resultConn.inputStream.reader().readText()
+                val resultData = conn.inputStream.reader().readText()
                 return@async when (type) {
                     JsonObject -> resultData.jsonObject
                     JsonArray -> resultData.jsonArray

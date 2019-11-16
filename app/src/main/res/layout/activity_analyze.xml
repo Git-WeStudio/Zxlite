@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     tools:context=".activity.AnalyzeActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -21,7 +22,6 @@
             android:layout_height="wrap_content"
             app:navigationIcon="@drawable/ic_arrow_back"
             app:title="@string/analyzeTitle" />
-
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager2.widget.ViewPager2
