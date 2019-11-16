@@ -62,4 +62,6 @@
     <string name="guessTitle">好友伴学</string>
     <string name="noFriends">没有好友</string>
     <string name="showError">全科无法查看</string>
+    <string name="addSuccess">已将全班添加至列表</string>
+    <string name="toastWait">请稍等</string>
 </resources>

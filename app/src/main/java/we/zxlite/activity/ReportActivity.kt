@@ -94,7 +94,7 @@ class ReportActivity : BaseActivity() {
                 "D3" -> 1.2F
                 "D4" -> 0.8F
                 "D5" -> 0.4F
-                else -> 0F
+                else -> 0.15F
             }
         }
 
@@ -126,6 +126,7 @@ class ReportActivity : BaseActivity() {
     override fun initView() {
         setSupportActionBar(reportBar)
         reportBar.setNavigationOnClickListener { onBackPressed() }
+        reportPager.offscreenPageLimit = 5
         reportPager.adapter = ReportPageAdapter(reportPageList) { chart, id ->
             launch {
                 val chartParams = "paperId=$id&pageIndex=1&pageSize=5&examId=$examId"

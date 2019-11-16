@@ -6,6 +6,7 @@ import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jetbrains.anko.toast
+import org.json.JSONArray
 import org.json.JSONObject
 import we.zxlite.R
 import we.zxlite.adapter.GuessItemAdapter
@@ -13,7 +14,9 @@ import we.zxlite.dialog.SelectFriendsDialog
 import we.zxlite.utils.BaseUtils.EMPTY_STR
 import we.zxlite.utils.HttpUtils.Error
 import we.zxlite.utils.HttpUtils.Type.JsonObject
+import we.zxlite.utils.HttpUtils.Type.JsonArray
 import we.zxlite.utils.HttpUtils.api
+import we.zxlite.utils.UserUtils.cfg
 
 class GuessActivity : BaseActivity() {
 
@@ -22,6 +25,11 @@ class GuessActivity : BaseActivity() {
         private const val FRIENDS_URL = "https://app.zhixue.com/study/social/t/getFriends?"
         //获取分数
         private const val GUESS_URL = "https://app.zhixue.com/study/social/getGuessScore"
+        //获取班级
+        private const val GRADE_URL = "https://www.zhixue.com/zhixuebao/studentPK/getClazzByGradeId"
+        //获取同学
+        private const val CLAZZ_URL =
+            "https://www.zhixue.com/zhixuebao/studentPK/getStudentByClazzId"
 
         private const val SUBJECT_LIST = "subjectList"
         private const val SUBJECT_CODE = "subjectCode"
@@ -31,6 +39,10 @@ class GuessActivity : BaseActivity() {
         private const val USER_NAME = "userName"
         private const val USER_ID = "userId"
         private const val NAME_LIST = "nameList"
+        private const val IS_SELF = "isSelf"
+        private const val CLAZZ_ID = "clazzId"
+        private const val STUDENT_ID = "studentId"
+        private const val STUDENT_NAME = "studentName"
     }
 
     private var friendsId = mutableListOf<String>()
@@ -60,6 +72,38 @@ class GuessActivity : BaseActivity() {
                 arguments = Bundle().apply { putStringArray(NAME_LIST, friendsName.toTypedArray()) }
             }.show(supportFragmentManager, EMPTY_STR)
             else toast(R.string.noFriends)
+        }
+        guessSelect.setOnLongClickListener {
+            toast(R.string.toastWait)
+            launch {
+                api(GRADE_URL, "token=${cfg.serviceToken}", true, JsonArray).let {
+                    if (it is JSONArray)
+                        for (i in 0 until it.length()) {
+                            val clazz = it.optJSONObject(i)
+                            if (clazz.optBoolean(IS_SELF))
+                                return@let clazz.optString(CLAZZ_ID)
+                        } else null
+                }?.let {
+                    api(CLAZZ_URL, "clazzId=$it&token=${cfg.serviceToken}", true, JsonArray).run {
+                        if (this is JSONArray) {
+                            friendsId.clear()
+                            friendsName.clear()
+                            for (i in 0 until length()) {
+                                val friends = optJSONObject(i).optJSONArray(FRIENDS)
+                                for (f in 0 until friends!!.length()) {
+                                    val friend = friends.optJSONObject(f)
+                                    friendsId.add(f, friend.optString(STUDENT_ID))
+                                    friendsName.add(f, friend.optString(STUDENT_NAME))
+                                }
+                            }
+                            withContext(Main) {
+                                toast(R.string.addSuccess)
+                            }
+                        }
+                    }
+                }
+            }
+            return@setOnLongClickListener true
         }
     }
 

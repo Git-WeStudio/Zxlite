@@ -25,8 +25,9 @@ import kotlin.collections.ArrayList
 class AnalyzeActivity : BaseActivity() {
 
     companion object {
+        //解析URL
         private const val ANALYZE_URL =
-            "https://www.zhixue.com/zhixuebao/report/getPaperAnalysis" //解析URL
+            "https://www.zhixue.com/zhixuebao/report/getPaperAnalysis"
         //原卷id
         private const val PAPER_ID = "paperId"
         // 类型主题分析
