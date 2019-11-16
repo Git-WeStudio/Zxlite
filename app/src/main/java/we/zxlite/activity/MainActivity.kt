@@ -102,8 +102,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         mainRefresh.setOnRefreshListener(this)
         mainFab.setOnClickListener { if (!mainRefresh.isRefreshing) loadList() }
         mainRecycler.addItemDecoration(ItemDecoration())
-        mainRecycler.adapter = ExamListAdapter(reportList) {
-            startActivity<ReportActivity>(EXAM_ID to it)
+        mainRecycler.adapter = ExamListAdapter(reportList) { examId, examName ->
+            startActivity<ReportActivity>(EXAM_ID to examId, EXAM_NAME to examName)
         }
     }
 

@@ -19,7 +19,7 @@ import kotlin.collections.ArrayList
  */
 class ExamListAdapter(
     private var reportList: ArrayList<ReportListBean>,
-    private val callback: (String) -> Unit
+    private val callback: (String, String) -> Unit
 ) : RecyclerView.Adapter<ExamListAdapter.ViewHolder>(), View.OnClickListener {
 
     companion object {
@@ -68,7 +68,7 @@ class ExamListAdapter(
     override fun getItemCount() = reportList.size
 
     override fun onClick(v: View) {
-        callback(v.tag.toString())
+        callback(v.tag.toString(), v.itemTitle.text.toString())
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)

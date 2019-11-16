@@ -3,8 +3,14 @@ package we.zxlite.adapter
 import android.view.LayoutInflater.from
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_report.view.*
+import kotlinx.android.synthetic.main.fragment_report.view.reportAdvice
+import kotlinx.android.synthetic.main.fragment_report.view.reportDetail
+import kotlinx.android.synthetic.main.fragment_report.view.reportProgress
+import kotlinx.android.synthetic.main.fragment_report.view.reportTitle
+import kotlinx.android.synthetic.main.fragment_report_general.view.*
 import we.zxlite.R
 import we.zxlite.bean.ReportPageBean
 import we.zxlite.view.ScoreChart
@@ -14,6 +20,11 @@ class ReportPageAdapter(
     private val pageList: ArrayList<ReportPageBean>,
     private val callback: (ScoreChart, String) -> Unit
 ) : RecyclerView.Adapter<ReportPageAdapter.ViewHolder>() {
+
+    companion object {
+        private const val SUBJECT = 0 //学科
+        private const val GENERAL = 1 //全科
+    }
 
     //等级评估
     private val Int.examLevel
@@ -43,13 +54,20 @@ class ReportPageAdapter(
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ViewHolder(from(parent.context).inflate(R.layout.fragment_report, parent, false))
+        if (viewType == SUBJECT)
+            ViewHolder(
+                from(parent.context).inflate(R.layout.fragment_report, parent, false)
+            )
+        else
+            ViewHolder(
+                from(parent.context).inflate(R.layout.fragment_report_general, parent, false)
+            )
 
     override fun getItemCount() = pageList.size
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val standardScore = pageList[position].standardScore.toBigDecimal()
-        val userScore = pageList[position].userScore.toBigDecimal()
+    override fun onBindViewHolder(holder: ViewHolder, i: Int) {
+        val standardScore = pageList[i].standardScore.toBigDecimal()
+        val userScore = pageList[i].userScore.toBigDecimal()
         val examScale =
             userScore.multiply(100.toBigDecimal()).divide(standardScore, 0, ROUND_DOWN).toInt() //占比
         val examDeduct = standardScore.subtract(userScore).stripTrailingZeros().toPlainString() //扣分
@@ -59,15 +77,28 @@ class ReportPageAdapter(
             "•   我的分数： $showScore\n\n•   等级评估： ${examScale.examLevel}\n\n•   分数总扣： $examDeduct 分\n\n•   分数占比： $examScale %"
         val showAdvice =
             "•   学科诊断： ${examScale.examDiagnosis}\n\n•   学科建议： ${examScale.examAdvice}"
-        holder.itemView.run {
-            reportTitle.text = pageList[position].paperName
+        if (getItemViewType(i) == SUBJECT) holder.itemView.run {
+            reportTitle.text = pageList[i].paperName
             reportChartTitle.text = "•   成绩变化曲线： "
             reportDetail.text = showDetail
             reportAdvice.text = showAdvice
             reportProgress.progress = examScale
-            if (reportChart.tag != true) callback(reportChart, pageList[position].paperId)
+            if (reportChart.tag != true) callback(reportChart, pageList[i].paperId)
+        } else holder.itemView.run {
+            reportTitle.text = pageList[i].paperName
+            reportDetail.text = showDetail
+            reportAdvice.text = showAdvice
+            reportProgress.progress = examScale
+            val subjectList = ArrayList<String>()
+            for (item in pageList) {
+                subjectList.add("•   ${item.title} ： ${item.userScore.toBigDecimal().stripTrailingZeros().toPlainString()} / ${item.standardScore.toBigDecimal().stripTrailingZeros().toPlainString()}")
+            }
+            reportGeneral.layoutManager = GridLayoutManager(context, 2)
+            reportGeneral.adapter = ReportItemAdapter(subjectList)
         }
     }
+
+    override fun getItemViewType(i: Int) = if (pageList.size > 1 && i == 0) GENERAL else SUBJECT
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 }

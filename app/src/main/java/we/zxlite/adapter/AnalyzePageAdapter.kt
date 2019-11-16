@@ -156,8 +156,8 @@ class AnalyzePageAdapter(private val analyzeList: ArrayList<AnalyzePageBean>) :
         ) {
             super.getItemOffsets(outRect, view, parent, state)
             outRect.top =
-                if (parent.getChildAdapterPosition(view) == 0) 48 else 18
-            outRect.bottom = 18
+                if (parent.getChildAdapterPosition(view) == 0) 56 else 24
+            outRect.bottom = 24
             outRect.left = 48
             outRect.right = 48
         }

@@ -16,6 +16,7 @@ import org.json.JSONObject
 import we.zxlite.R
 import we.zxlite.adapter.ReportPageAdapter
 import we.zxlite.bean.ReportPageBean
+import we.zxlite.utils.BaseUtils.EMPTY_STR
 import we.zxlite.utils.HttpUtils.Error
 import we.zxlite.utils.HttpUtils.api
 import we.zxlite.utils.HttpUtils.Type.JsonObject
@@ -33,6 +34,8 @@ class ReportActivity : BaseActivity() {
         private const val LIST = "list"
         //报告id
         private const val EXAM_ID = "examId"
+        //报告名称
+        private const val EXAM_NAME = "examName"
         //标题
         private const val TITLE = "title"
         //考卷id
@@ -55,6 +58,8 @@ class ReportActivity : BaseActivity() {
         private const val TAG = "tag"
         //名称
         private const val NAME = "name"
+        //全科
+        private const val GENERAL_SUBJECT = "全科"
     }
 
     //报告页列表
@@ -157,8 +162,14 @@ class ReportActivity : BaseActivity() {
             api(REPORT_URL, reportParams, true, JsonObject).let {
                 if (it is JSONObject) {
                     val reportList = it.optJSONArray(PAPER_LIST)
+                    var totalStandardScore = 0.00
+                    var totalUserScore = 0.00
                     for (i in 0 until reportList!!.length()) {
                         val item = reportList.optJSONObject(i)
+                        if (item.optString(TITLE) != "理综" && item.optString(TITLE) != "文综") {
+                            totalStandardScore += item.optDouble(STANDARD_SCORE)
+                            totalUserScore += item.optDouble(USER_SCORE)
+                        }
                         reportPageList.add(
                             ReportPageBean(
                                 title = item.optString(TITLE),
@@ -171,6 +182,19 @@ class ReportActivity : BaseActivity() {
                             )
                         )
                     }
+                    if (reportList.length() > 1)
+                        reportPageList.add(
+                            0,
+                            ReportPageBean(
+                                title = GENERAL_SUBJECT,
+                                paperId = EMPTY_STR,
+                                paperName = intent.getStringExtra(EXAM_NAME)!!,
+                                standardScore = totalStandardScore,
+                                userScore = totalUserScore,
+                                subjectCode = -1,
+                                subjectName = EMPTY_STR
+                            )
+                        )
                     withContext(Main) {
                         reportPager.adapter!!.notifyItemRangeInserted(0, reportPageList.size)
                     }
