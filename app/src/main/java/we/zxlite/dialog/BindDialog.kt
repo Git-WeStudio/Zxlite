@@ -67,5 +67,4 @@ class BindDialog : BaseSheetDialog() {
             } else context!!.toast(R.string.valueIncorrect)
         }
     }
-
 }

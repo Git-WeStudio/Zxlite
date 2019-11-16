@@ -66,36 +66,36 @@ class ReportActivity : BaseActivity() {
     private val reportPageList = ArrayList<ReportPageBean>()
     //报告id
     private val examId get() = intent.getStringExtra(EXAM_ID)
-    //报告参数
-    private val reportParams get() = "examId=$examId"
     //水平趋势
-    private val String.levelTrend
-        get() = when (this) {
-            "A等" -> 8F
-            "A1" -> 8F
-            "A2" -> 7.6F
-            "A3" -> 7.2F
-            "A4" -> 6.8F
-            "A5" -> 6.4F
-            "B等" -> 6F
-            "B1" -> 6F
-            "B2" -> 5.6F
-            "B3" -> 5.2F
-            "B4" -> 4.8F
-            "B5" -> 4.4F
-            "C等" -> 4F
-            "C1" -> 4F
-            "C2" -> 3.6F
-            "C3" -> 3.2F
-            "C4" -> 2.8F
-            "C5" -> 2.4F
-            "D等" -> 2F
-            "D1" -> 2F
-            "D2" -> 1.6F
-            "D3" -> 1.2F
-            "D4" -> 0.8F
-            "D5" -> 0.4F
-            else -> 0F
+    private val String.levelTrend: Float
+        get() {
+            return when (this) {
+                "A等" -> 8F
+                "A1" -> 8F
+                "A2" -> 7.6F
+                "A3" -> 7.2F
+                "A4" -> 6.8F
+                "A5" -> 6.4F
+                "B等" -> 6F
+                "B1" -> 6F
+                "B2" -> 5.6F
+                "B3" -> 5.2F
+                "B4" -> 4.8F
+                "B5" -> 4.4F
+                "C等" -> 4F
+                "C1" -> 4F
+                "C2" -> 3.6F
+                "C3" -> 3.2F
+                "C4" -> 2.8F
+                "C5" -> 2.4F
+                "D等" -> 2F
+                "D1" -> 2F
+                "D2" -> 1.6F
+                "D3" -> 1.2F
+                "D4" -> 0.8F
+                "D5" -> 0.4F
+                else -> 0F
+            }
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -119,7 +119,6 @@ class ReportActivity : BaseActivity() {
             R.id.menuAnalyze -> startActivity<AnalyzeActivity>(PAPER_ID to selected)
             R.id.menuPaper -> startActivity<PaperActivity>(PAPER_ID to selected)
             R.id.menuGuess -> startActivity<GuessActivity>(EXAM_ID to examId)
-            else -> Unit
         }
         return true
     }
@@ -163,6 +162,7 @@ class ReportActivity : BaseActivity() {
     /** 加载报告 */
     private fun loadReport() {
         launch {
+            val reportParams = "examId=$examId"
             api(REPORT_URL, reportParams, true, JsonObject).let {
                 if (it is JSONObject) {
                     val reportList = it.optJSONArray(PAPER_LIST)

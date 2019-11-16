@@ -1,17 +1,18 @@
 package we.zxlite.adapter
 
-import android.view.LayoutInflater
+import android.graphics.Color
+import android.view.LayoutInflater.from
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_guess.view.*
 import org.json.JSONObject
 import we.zxlite.R
-import we.zxlite.utils.BaseUtils.color
 
 class GuessItemAdapter(
-    private val myList: Map<Int, JSONObject>,
-    private val guessList: Map<String, JSONObject>
+    private val mList: Map<Int, JSONObject>,
+    private val fList: Map<String, JSONObject>
 ) :
     RecyclerView.Adapter<GuessItemAdapter.ViewHolder>() {
 
@@ -19,43 +20,45 @@ class GuessItemAdapter(
         private const val SUBJECT_NAME = "subjectName"
         private const val SUBJECT_CODE = "subjectCode"
         private const val SCORE = "score"
-        private const val DEF_CODE = "0"
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_guess, parent, false))
+    private var correctColor = Color.DKGRAY
+    private var mistakeColor = Color.RED
 
-    override fun getItemCount() = myList.size
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+        ViewHolder(from(parent.context).inflate(R.layout.item_guess, parent, false))
+
+    override fun getItemCount() = mList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val json = myList.getValue(position)
-        var code = json.optString(SUBJECT_CODE)
-        if (code.isEmpty()) code = DEF_CODE
-        val myScore = json.optDouble(SCORE)
-        val friendScore = guessList[code]?.optDouble(SCORE) ?: 0.0
-        holder.itemView.itemSubjectName.text = json.optString(SUBJECT_NAME)
-        holder.itemView.itemMyScore.text =
-            myScore.toBigDecimal().stripTrailingZeros().toPlainString()
-        holder.itemView.itemGuessScore.text =
-            friendScore.toBigDecimal().stripTrailingZeros().toPlainString()
-        val greyColor = holder.itemView.context.color(android.R.color.darker_gray)
-        val defaultColor = holder.itemView.context.color(R.color.colorTitle)
+        val value = mList.getValue(position)
+        val code = value.optString(SUBJECT_CODE, "0")
+        val mScore = value.optDouble(SCORE)
+        val fScore = fList[code]?.optDouble(SCORE) ?: 0.0
+        holder.itemSubject.text = value.optString(SUBJECT_NAME)
+        holder.itemMyScore.text =
+            mScore.toBigDecimal().stripTrailingZeros().toPlainString()
+        holder.itemGuessScore.text =
+            fScore.toBigDecimal().stripTrailingZeros().toPlainString()
         when {
-            myScore > friendScore -> {
-                holder.itemView.itemMyScore.setTextColor(defaultColor)
-                holder.itemView.itemGuessScore.setTextColor(greyColor)
+            mScore > fScore -> {
+                holder.itemMyScore.setTextColor(correctColor)
+                holder.itemGuessScore.setTextColor(mistakeColor)
             }
-            myScore < friendScore -> {
-                holder.itemView.itemMyScore.setTextColor(greyColor)
-                holder.itemView.itemGuessScore.setTextColor(defaultColor)
+            mScore < fScore -> {
+                holder.itemMyScore.setTextColor(mistakeColor)
+                holder.itemGuessScore.setTextColor(correctColor)
             }
             else -> {
-                holder.itemView.itemMyScore.setTextColor(defaultColor)
-                holder.itemView.itemGuessScore.setTextColor(defaultColor)
+                holder.itemMyScore.setTextColor(correctColor)
+                holder.itemGuessScore.setTextColor(correctColor)
             }
         }
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
-
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val itemMyScore: TextView = itemView.itemMyScore
+        val itemGuessScore: TextView = itemView.itemGuessScore
+        val itemSubject: TextView = itemView.itemSubject
+    }
 }

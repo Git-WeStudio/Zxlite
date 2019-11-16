@@ -41,8 +41,7 @@ class AccountDialog : BaseAlertDialog() {
                         .addFlags(FLAG_ACTIVITY_CLEAR_TASK)
                         .addFlags(FLAG_ACTIVITY_NEW_TASK)
                 )
-            }
-            .create()
+            }.create()
     }
 
 }

@@ -31,7 +31,7 @@ class AnalyzePageAdapter(private val analyzeList: ArrayList<AnalyzePageBean>) :
         private const val USER_ANSWER = "userAnswer"
         private const val STAND_SCORE = "standScore"
         private const val DISP_TITLE = "dispTitle"
-        private const val RELATED_KNOW_LEDGES = "relatedKnowledges"
+        private const val KNOW_LEDGES = "relatedKnowledges"
     }
 
     private val Int.topic get() = AnalyzeListBean(TITLE_TOPIC, analyzeList[this].contentHtml)
@@ -75,9 +75,9 @@ class AnalyzePageAdapter(private val analyzeList: ArrayList<AnalyzePageBean>) :
             for (i in 0 until groups.length()) {
                 val knowledge = groups.optJSONObject(i)
                 val dispTitle = knowledge.optString(DISP_TITLE)
+                val knowledges = knowledge.optJSONArray(KNOW_LEDGES)
                 if (dispTitle.isNotEmpty() && groups.length() != 1)
                     buffer.append("第&nbsp;$dispTitle&nbsp;题：&nbsp;")
-                val knowledges = knowledge.optJSONArray(RELATED_KNOW_LEDGES)
                 for (it in 0 until knowledges!!.length()) {
                     buffer.append(knowledges.optJSONObject(it).optString(NAME))
                     if (it != knowledges.length() - 1) buffer.append("；")
@@ -95,14 +95,14 @@ class AnalyzePageAdapter(private val analyzeList: ArrayList<AnalyzePageBean>) :
                 for (i in 0 until array.length()) {
                     val item = array.optJSONObject(i)
                     scores.append(
-                        "第&nbsp;${item.optString("dispTitle")}&nbsp;题：&nbsp;&nbsp;" +
+                        "第&nbsp;${item.optString(DISP_TITLE)}&nbsp;题：&nbsp;&nbsp;" +
                                 "${item.optString(SCORE)}&nbsp;分&nbsp;/&nbsp;" +
                                 "${item.optString(STAND_SCORE)}&nbsp;分"
                     )
                     if (array.length() != i + 1) scores.append("<br/>")
                 }
                 AnalyzeListBean(TITLE_MY_SCORE, scores.toString())
-            } else return null
+            } else null
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =

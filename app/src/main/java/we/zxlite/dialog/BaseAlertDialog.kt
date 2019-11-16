@@ -11,5 +11,4 @@ abstract class BaseAlertDialog :DialogFragment(), CoroutineScope by MainScope(){
         super.onDestroy()
         cancel()
     }
-
 }

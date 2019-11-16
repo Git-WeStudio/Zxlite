@@ -4,6 +4,7 @@ import android.graphics.Rect
 import android.view.LayoutInflater.from
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_report.view.*
 import we.zxlite.R
@@ -13,20 +14,16 @@ import java.util.*
 import java.util.Locale.getDefault
 import kotlin.collections.ArrayList
 
-/** 考试列表适配器
- * @param reportList 数据集合
- * @param callback 回调数据
- */
 class ExamListAdapter(
     private var reportList: ArrayList<ReportListBean>,
     private val callback: (String, String) -> Unit
 ) : RecyclerView.Adapter<ExamListAdapter.ViewHolder>(), View.OnClickListener {
 
     companion object {
-        private const val minute = 60 * 1000L//分
-        private const val hour = 60 * minute//时
-        private const val day = 24 * hour//日
-        private const val month = 30 * day// 月
+        private const val minute = 60 * 1000L //分
+        private const val hour = 60 * minute //时
+        private const val day = 24 * hour //日
+        private const val month = 30 * day // 月
         private const val year = 12 * month//年
     }
 
@@ -38,6 +35,7 @@ class ExamListAdapter(
             else -> "9+"
         }
 
+    /** 获取时间字符 */
     private val Long.timeFormat: String
         get() {
             val date = Date().time - Date(this).time
@@ -56,13 +54,12 @@ class ExamListAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val reportItem = reportList[position]
-        holder.itemView.run {
-            tag = reportItem.examId
-            itemNum.text = (position + 1).num
-            itemTitle.text = reportItem.examName
-            itemSubTitle.text = reportItem.examCreateTime.timeFormat
-            setOnClickListener(this@ExamListAdapter)
-        }
+        holder.itemNum.text = (position + 1).num
+        holder.itemTitle.text = reportItem.examName
+        holder.itemSubTitle.text = reportItem.examCreateTime.timeFormat
+
+        holder.itemView.tag = reportItem.examId
+        holder.itemView.setOnClickListener(this@ExamListAdapter)
     }
 
     override fun getItemCount() = reportList.size
@@ -71,7 +68,11 @@ class ExamListAdapter(
         callback(v.tag.toString(), v.itemTitle.text.toString())
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val itemNum: TextView = itemView.itemNum
+        val itemTitle: TextView = itemView.itemTitle
+        val itemSubTitle: TextView = itemView.itemSubTitle
+    }
 
     class ItemDecoration : RecyclerView.ItemDecoration() {
         override fun getItemOffsets(

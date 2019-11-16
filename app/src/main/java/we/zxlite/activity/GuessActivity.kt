@@ -9,8 +9,8 @@ import org.jetbrains.anko.toast
 import org.json.JSONObject
 import we.zxlite.R
 import we.zxlite.adapter.GuessItemAdapter
-import we.zxlite.dialog.SelectDialog
-import we.zxlite.utils.BaseUtils
+import we.zxlite.dialog.SelectFriendsDialog
+import we.zxlite.utils.BaseUtils.EMPTY_STR
 import we.zxlite.utils.HttpUtils.Error
 import we.zxlite.utils.HttpUtils.Type.JsonObject
 import we.zxlite.utils.HttpUtils.api
@@ -20,86 +20,89 @@ class GuessActivity : BaseActivity() {
     companion object {
         //获取好友
         private const val FRIENDS_URL = "https://app.zhixue.com/study/social/t/getFriends?"
+        //获取分数
         private const val GUESS_URL = "https://app.zhixue.com/study/social/getGuessScore"
 
+        private const val SUBJECT_LIST = "subjectList"
+        private const val SUBJECT_CODE = "subjectCode"
+        private const val STUDENT_PK_DTOS = "studentPKDTOs"
         private const val EXAM_ID = "examId"
         private const val FRIENDS = "friends"
         private const val USER_NAME = "userName"
         private const val USER_ID = "userId"
         private const val NAME_LIST = "nameList"
-        private const val SUBJECT_LIST = "subjectList"
-        private const val SUBJECT_CODE = "subjectCode"
-        private const val STUDENT_PK_DTOS = "studentPKDTOs"
     }
 
     private var friendsId = mutableListOf<String>()
     private var friendsName = mutableListOf<String>()
 
-    private var myList = mutableMapOf<Int, JSONObject>()
-    private var guessList = mutableMapOf<String, JSONObject>()
+    private var mList = mutableMapOf<Int, JSONObject>()
+    private var fList = mutableMapOf<String, JSONObject>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_guess)
-        getFriends()
+        loadFriends()
     }
 
     override fun initView() {
         setSupportActionBar(guessBar)
         guessBar.setNavigationOnClickListener { onBackPressed() }
-        guessRecycler.adapter = GuessItemAdapter(myList, guessList)
+        guessRecycler.adapter = GuessItemAdapter(mList, fList)
         guessSelect.setOnClickListener {
-            if (friendsId.isNotEmpty() && friendsName.isNotEmpty()) SelectDialog { which ->
-                guessSelectText.text = friendsName[which]
-                myList.clear()
-                guessList.clear()
+            if (friendsId.isNotEmpty() && friendsName.isNotEmpty()) SelectFriendsDialog { i ->
+                mList.clear()
+                fList.clear()
+                guessSelectText.text = friendsName[i]
                 guessRecycler.adapter!!.notifyDataSetChanged()
-                val guessParams =
-                    "examId=${intent.getStringExtra(EXAM_ID)}&guessUserId=${friendsId[which]}"
-                launch {
-                    api(GUESS_URL, guessParams, true, JsonObject).let {
-                        if (it is JSONObject) {
-                            val array = it.optJSONArray(STUDENT_PK_DTOS)
-                            if (array != null) {
-                                val myScores = array.optJSONObject(0).optJSONArray(SUBJECT_LIST)
-                                for (i in 0 until myScores!!.length()) {
-                                    myList[i] = myScores.optJSONObject(i)
-                                }
-                                val friendScores =
-                                    array.optJSONObject(1).optJSONArray(SUBJECT_LIST)
-                                for (i in 0 until friendScores!!.length()) {
-                                    val json = friendScores.optJSONObject(i)
-                                    var code = json.optString(SUBJECT_CODE)
-                                    if (code.isEmpty()) code = "0"
-                                    guessList[code] = json
-                                }
-                                withContext(Main) {
-                                    guessRecycler.adapter!!.notifyDataSetChanged()
-                                }
-                            } else Unit
-                        } else withContext(Main) {
-                            toast((it as Error).message)
-                        }
-                    }
-                }
+                loadScores(i)
             }.apply {
-                arguments = Bundle().apply {
-                    putStringArray(NAME_LIST, friendsName.toTypedArray())
-                }
-            }.show(supportFragmentManager, BaseUtils.EMPTY_STR)
+                arguments = Bundle().apply { putStringArray(NAME_LIST, friendsName.toTypedArray()) }
+            }.show(supportFragmentManager, EMPTY_STR)
             else toast(R.string.noFriends)
         }
     }
 
-    private fun getFriends() {
+    private fun loadScores(position: Int) {
+        launch {
+            val guessParams =
+                "examId=${intent.getStringExtra(EXAM_ID)}&guessUserId=${friendsId[position]}"
+            api(GUESS_URL, guessParams, true, JsonObject).let {
+                if (it is JSONObject) {
+                    val dtos = it.optJSONArray(STUDENT_PK_DTOS)
+                    if (dtos != null) {
+                        val mScores = dtos.optJSONObject(0).optJSONArray(SUBJECT_LIST)
+                        for (i in 0 until mScores!!.length()) {
+                            mList[i] = mScores.optJSONObject(i)
+                        }
+
+                        val fScores = dtos.optJSONObject(1).optJSONArray(SUBJECT_LIST)
+                        for (i in 0 until fScores!!.length()) {
+                            val json = fScores.optJSONObject(i)
+                            val code = json.optString(SUBJECT_CODE, "0")
+                            fList[code] = json
+                        }
+
+                        withContext(Main) {
+                            guessRecycler.adapter!!.notifyItemRangeInserted(0, mList.size)
+                        }
+                    } else Unit
+                } else withContext(Main) {
+                    toast((it as Error).message)
+                }
+            }
+        }
+    }
+
+    private fun loadFriends() {
         launch {
             api(FRIENDS_URL, null, true, JsonObject).let {
                 if (it is JSONObject) {
                     val friendArray = it.optJSONArray(FRIENDS)
                     for (i in 0 until friendArray!!.length()) {
-                        val json = friendArray.optJSONObject(i)
-                        friendsName.add(i, json.optString(USER_NAME))
-                        friendsId.add(i, json.optString(USER_ID))
+                        val friend = friendArray.optJSONObject(i)
+                        friendsId.add(i, friend.optString(USER_ID))
+                        friendsName.add(i, friend.optString(USER_NAME))
                     }
                 }
             }

@@ -4,6 +4,7 @@ import android.text.Html.TagHandler
 import android.view.LayoutInflater.from
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.text.HtmlCompat
 import androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY
 import androidx.recyclerview.widget.RecyclerView
@@ -19,10 +20,10 @@ class AnalyzeListAdapter(private val analyzeList: ArrayList<AnalyzeListBean>) :
         ViewHolder(from(parent.context).inflate(R.layout.item_analyze, parent, false))
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.itemView.itemTitle.text = analyzeList[position].title
-        holder.itemView.itemContent.text = HtmlCompat.fromHtml(analyzeList[position].content,
+        holder.itemTitle.text = analyzeList[position].title
+        holder.itemContent.text = HtmlCompat.fromHtml(analyzeList[position].content,
             FROM_HTML_MODE_LEGACY,
-            ImageGetter(holder.itemView.itemContent),
+            ImageGetter(holder.itemContent),
             TagHandler { opening, tag, output, _ ->
                 if (!opening && tag != null && tag.contentEquals("td")) output.append('\n')
             })
@@ -30,5 +31,8 @@ class AnalyzeListAdapter(private val analyzeList: ArrayList<AnalyzeListBean>) :
 
     override fun getItemCount() = analyzeList.size
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val itemTitle: TextView = itemView.itemTitle
+        val itemContent: TextView = itemView.itemContent
+    }
 }

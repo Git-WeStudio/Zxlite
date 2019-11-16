@@ -29,13 +29,6 @@ class ModifyDialog : BaseSheetDialog() {
             "https://www.zhixue.com/container/app/modifyOriginPWD" //修改密码URL
     }
 
-    //新密码
-    private val modifyNewPwd get() = modifyNew.text.toString()
-    //原密码
-    private val modifyOriginPwd get() = modifyOrigin.text.toString()
-    //修改参数
-    private val modifyParams get() = "loginName=${cfg.loginName?.rc4}&newPWD=${modifyNewPwd.rc4}&originPWD=${modifyOriginPwd.rc4}&description=encrypt"
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -45,9 +38,11 @@ class ModifyDialog : BaseSheetDialog() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         modifyBtn.setOnClickListener {
-            val newPwd = modifyNewPwd
-            val originPwd = modifyOriginPwd
+            val newPwd = modifyNew.text.toString()
+            val originPwd = modifyOrigin.text.toString()
             if (newPwd.isNotEmpty() && originPwd.isNotEmpty()) launch {
+                val modifyParams =
+                    "loginName=${cfg.loginName?.rc4}&newPWD=${newPwd.rc4}&originPWD=${originPwd.rc4}&description=encrypt"
                 activity!!.api(MODIFY_URL, modifyParams, true, JsonObject).let {
                     withContext(Main) {
                         if (it is JSONObject) {

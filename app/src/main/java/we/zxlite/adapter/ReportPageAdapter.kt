@@ -3,6 +3,7 @@ package we.zxlite.adapter
 import android.view.LayoutInflater.from
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_report.view.*
@@ -13,6 +14,7 @@ import kotlinx.android.synthetic.main.fragment_report.view.reportTitle
 import kotlinx.android.synthetic.main.fragment_report_general.view.*
 import we.zxlite.R
 import we.zxlite.bean.ReportPageBean
+import we.zxlite.view.ProgressBar
 import we.zxlite.view.ScoreChart
 import java.math.BigDecimal.ROUND_DOWN
 
@@ -66,39 +68,57 @@ class ReportPageAdapter(
     override fun getItemCount() = pageList.size
 
     override fun onBindViewHolder(holder: ViewHolder, i: Int) {
-        val standardScore = pageList[i].standardScore.toBigDecimal()
-        val userScore = pageList[i].userScore.toBigDecimal()
-        val examScale =
-            userScore.multiply(100.toBigDecimal()).divide(standardScore, 0, ROUND_DOWN).toInt() //占比
-        val examDeduct = standardScore.subtract(userScore).stripTrailingZeros().toPlainString() //扣分
+        val standardScore = //标准得分
+            pageList[i].standardScore.toBigDecimal()
+        val userScore = //得分
+            pageList[i].userScore.toBigDecimal()
+        val examScale = //占比
+            userScore.multiply(100.toBigDecimal()).divide(standardScore, 0, ROUND_DOWN).toInt()
+        val examDeduct = //扣分
+            standardScore.subtract(userScore).stripTrailingZeros().toPlainString()
+
         val showScore =
             "${userScore.stripTrailingZeros().toPlainString()} / ${standardScore.stripTrailingZeros().toPlainString()}"
         val showDetail =
             "•   我的分数： $showScore\n\n•   等级评估： ${examScale.examLevel}\n\n•   分数总扣： $examDeduct 分\n\n•   分数占比： $examScale %"
         val showAdvice =
             "•   学科诊断： ${examScale.examDiagnosis}\n\n•   学科建议： ${examScale.examAdvice}"
-        if (getItemViewType(i) == SUBJECT) holder.itemView.run {
-            reportTitle.text = pageList[i].paperName
-            reportChartTitle.text = "•   成绩变化曲线： "
-            reportDetail.text = showDetail
-            reportAdvice.text = showAdvice
-            reportProgress.value = examScale
-            if (reportChart.tag != true) callback(reportChart, pageList[i].paperId)
-        } else holder.itemView.run {
-            reportTitle.text = pageList[i].paperName
-            reportDetail.text = showDetail
-            reportAdvice.text = showAdvice
-            reportProgress.value = examScale
+        val showChartTitle =
+            "•   成绩变化曲线： "
+
+        if (getItemViewType(i) == SUBJECT) {
+            holder.itemView.reportChartTitle.text = showChartTitle
+            holder.reportTitle.text = pageList[i].paperName
+            holder.reportDetail.text = showDetail
+            holder.reportAdvice.text = showAdvice
+            holder.reportProgress.value = examScale
+
+            if (holder.itemView.reportChart.tag != true) {
+                callback(holder.itemView.reportChart, pageList[i].paperId)
+            }
+        } else {
+            holder.reportTitle.text = pageList[i].paperName
+            holder.reportDetail.text = showDetail
+            holder.reportAdvice.text = showAdvice
+            holder.reportProgress.value = examScale
             val subjectList = ArrayList<String>()
             for (item in pageList) {
                 subjectList.add("•   ${item.title} ： ${item.userScore.toBigDecimal().stripTrailingZeros().toPlainString()} / ${item.standardScore.toBigDecimal().stripTrailingZeros().toPlainString()}")
             }
-            reportGeneral.layoutManager = GridLayoutManager(context, 2)
-            reportGeneral.adapter = ReportItemAdapter(subjectList)
+
+            holder.itemView.reportGeneral.layoutManager =
+                GridLayoutManager(holder.itemView.context, 2)
+            holder.itemView.reportGeneral.adapter =
+                ReportItemAdapter(subjectList)
         }
     }
 
     override fun getItemViewType(i: Int) = if (pageList.size > 1 && i == 0) GENERAL else SUBJECT
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val reportTitle: TextView = itemView.reportTitle
+        val reportDetail: TextView = itemView.reportDetail
+        val reportAdvice: TextView = itemView.reportAdvice
+        val reportProgress: ProgressBar = itemView.reportProgress
+    }
 }
