@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activity.GuessActivity"/>
         <activity android:name=".activity.AnalyzeActivity" />
         <activity android:name=".activity.PaperActivity" />
         <activity android:name=".activity.ReportActivity" />

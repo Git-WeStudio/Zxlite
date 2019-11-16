@@ -54,4 +54,5 @@
     <string name="reportTitle">学情报告</string>
     <string name="paperTitle">原卷查看</string>
     <string name="analyzeTitle">题目解析</string>
+    <string name="titleGuess">好友伴学</string>
 </resources>
